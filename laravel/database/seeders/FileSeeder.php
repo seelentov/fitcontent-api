@@ -21,6 +21,7 @@ class FileSeeder extends Seeder
             "seed/sample.mp3" => File::TYPE_AUDIO,
             "seed/sample.mp4" => File::TYPE_VIDEO,
             "seed/sample.pdf" => File::TYPE_TEXT,
+            "seed/sample.txt" => File::TYPE_TEXT,
         ];
 
         $folders = Folder::all();
