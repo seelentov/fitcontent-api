@@ -17,10 +17,10 @@ class FileSeeder extends Seeder
     public function run()
     {
         $sampleFiles = [
-            "/storage/seed/sample.jpg" => File::TYPE_IMAGE,
-            "/storage/seed/sample.mp3" => File::TYPE_AUDIO,
-            "/storage/seed/sample.mp4" => File::TYPE_VIDEO,
-            "/storage/seed/sample.pdf" => File::TYPE_TEXT,
+            "seed/sample.jpg" => File::TYPE_IMAGE,
+            "seed/sample.mp3" => File::TYPE_AUDIO,
+            "seed/sample.mp4" => File::TYPE_VIDEO,
+            "seed/sample.pdf" => File::TYPE_TEXT,
         ];
 
         $folders = Folder::all();
