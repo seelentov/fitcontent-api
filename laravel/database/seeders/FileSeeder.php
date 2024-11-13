@@ -20,7 +20,7 @@ class FileSeeder extends Seeder
             "seed/sample.jpg" => File::TYPE_IMAGE,
             "seed/sample.mp3" => File::TYPE_AUDIO,
             "seed/sample.mp4" => File::TYPE_VIDEO,
-            "seed/sample.pdf" => File::TYPE_TEXT,
+            "seed/sample.pdf" => File::TYPE_DOC,
             "seed/sample.txt" => File::TYPE_TEXT,
         ];
 

@@ -59,7 +59,6 @@ class FileService extends Service implements IFileService
                 break;
             case 'txt':
             case 'csv':
-            case 'pdf':
                 $fileType = File::TYPE_TEXT;
                 break;
             case 'doc':
@@ -68,6 +67,7 @@ class FileService extends Service implements IFileService
             case 'xlsx':
             case 'ppt':
             case 'pptx':
+            case 'pdf':
                 $fileType = File::TYPE_DOC;
                 break;
             case 'mp3':
