@@ -8,7 +8,7 @@ class File extends Model
 {
     protected $guarded = [];
 
-    const TYPE_IMAGE = 'day';
+    const TYPE_IMAGE = 'image';
     const TYPE_TEXT = 'text';
     const TYPE_DOC = 'doc';
     const TYPE_AUDIO = 'audio';

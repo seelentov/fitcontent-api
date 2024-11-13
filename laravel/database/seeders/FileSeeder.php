@@ -33,7 +33,7 @@ class FileSeeder extends Seeder
                     'user_id' => $folder->user_id,
                     'folder_id' => $folder->id,
                     'size' => 12345,
-                    'type' => $type, // Add the file type
+                    'type' => $type,
                 ]);
             }
         }
