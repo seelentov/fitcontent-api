@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('uuid')->unique();
             $table->timestamp("sub_date")->nullable()->default(null);
+            $table->enum("role", ["user", "admin"])->default("user");
         });
     }
 

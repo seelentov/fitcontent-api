@@ -29,6 +29,7 @@ class AdminSeeder extends Seeder
             'name' => env("ADMIN_NAME"),
             'email' => env("ADMIN_EMAIL"),
             'password' => bcrypt(env("ADMIN_PASSWORD")),
+            "role" => "admin"
         ]);
     }
 }
