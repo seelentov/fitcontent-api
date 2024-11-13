@@ -47,12 +47,52 @@ class FileService extends Service implements IFileService
         $file->storeAs($userFolder, $uniqueFilename, 'public');
 
         $fileSize = $file->getSize();
+        $fileType = File::TYPE_UNKNOWN; // Default to unknown
+        $extension = $file->getClientOriginalExtension();
+
+        switch ($extension) {
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+            case 'gif':
+                $fileType = File::TYPE_IMAGE;
+                break;
+            case 'txt':
+            case 'csv':
+            case 'pdf':
+                $fileType = File::TYPE_TEXT;
+                break;
+            case 'doc':
+            case 'docx':
+            case 'xls':
+            case 'xlsx':
+            case 'ppt':
+            case 'pptx':
+                $fileType = File::TYPE_DOC;
+                break;
+            case 'mp3':
+            case 'wav':
+            case 'ogg':
+                $fileType = File::TYPE_AUDIO;
+                break;
+            case 'mp4':
+            case 'avi':
+            case 'mov':
+                $fileType = File::TYPE_VIDEO;
+                break;
+            case 'zip':
+            case 'rar':
+            case '7z':
+                $fileType = File::TYPE_ARCHIVE;
+                break;
+        }
 
         unset($data["file"]);
 
         $data["name"] = $filename;
         $data["path"] = $filePath;
         $data["size"] = $fileSize;
+        $data["type"] = $fileType; // Add file type to data
 
         $file = $this->files->create($data);
         return $file;

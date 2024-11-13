@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("name");
             $table->string("path");
             $table->integer("size");
+            $table->enum("type", ["image", "text", "doc", "audio", "video", "archive", "unknown"]);
 
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("folder_id")->nullable()->default(null);

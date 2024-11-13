@@ -17,22 +17,23 @@ class FileSeeder extends Seeder
     public function run()
     {
         $sampleFiles = [
-            "/storage/seed/sample.jpg",
-            "/storage/seed/sample.mp3",
-            "/storage/seed/sample.mp4",
-            "/storage/seed/sample.pdf",
+            "/storage/seed/sample.jpg" => File::TYPE_IMAGE,
+            "/storage/seed/sample.mp3" => File::TYPE_AUDIO,
+            "/storage/seed/sample.mp4" => File::TYPE_VIDEO,
+            "/storage/seed/sample.pdf" => File::TYPE_TEXT,
         ];
 
         $folders = Folder::all();
 
         foreach ($folders as $folder) {
-            foreach ($sampleFiles as $path) {
+            foreach ($sampleFiles as $path => $type) {
                 File::create([
                     'name' => basename($path),
                     'path' => $path,
                     'user_id' => $folder->user_id,
                     'folder_id' => $folder->id,
-                    'size' => 12345
+                    'size' => 12345,
+                    'type' => $type, // Add the file type
                 ]);
             }
         }
@@ -40,13 +41,14 @@ class FileSeeder extends Seeder
         $users = User::all();
 
         foreach ($users as $user) {
-            foreach ($sampleFiles as $path) {
+            foreach ($sampleFiles as $path => $type) {
                 File::create([
                     'name' => basename($path),
                     'path' => $path,
                     'user_id' => $user->id,
                     'folder_id' => null,
-                    'size' => 12345
+                    'size' => 12345,
+                    'type' => $type, // Add the file type
                 ]);
             }
         }
