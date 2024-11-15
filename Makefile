@@ -30,9 +30,9 @@ init:
 up:
 	# Запускает все сервисы в фоновом режиме
 	docker compose --profile "*" up -d
-	sleep 5s
+	# sleep 5s
 	# Приостанавливает тестировочный супервайзер
-	@make stop-test-horizon
+	# @make stop-test-horizon
 
 # Остановка контейнеров
 stop:

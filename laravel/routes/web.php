@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\LoggingController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Filament\Facades\Filament;
 
 Route::group(["prefix" => "logging", 'middleware' => 'web'], function () {
     Route::post('auth', [LoggingController::class, 'auth'])->name('logging_auth');

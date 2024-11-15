@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Admin\Resources\FolderResource\Pages;
+namespace App\Filament\Resources\FolderResource\Pages;
 
-use App\Filament\Admin\Resources\FolderResource;
+use App\Filament\Resources\FolderResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 

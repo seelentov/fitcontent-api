@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Filament\Admin\Resources\FileResource\Pages;
+namespace App\Filament\Resources\FileResource\Pages;
 
-use App\Filament\Admin\Resources\FileResource;
+use App\Filament\Resources\FileResource;
+use App\Models\File;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Storage;
 
 class EditFile extends EditRecord
 {
@@ -13,7 +15,7 @@ class EditFile extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
         ];
     }
 }

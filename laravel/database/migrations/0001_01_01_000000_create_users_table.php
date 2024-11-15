@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('verified_at')->nullable()->default(null);
             $table->string('password');
-            $table->string('uuid')->unique();
             $table->timestamp("sub_date")->nullable()->default(null);
             $table->enum("role", ["user", "admin"])->default("user");
         });

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\Resources;
 
-use App\Filament\Admin\Resources\FolderResource\Pages;
-use App\Filament\Admin\Resources\FolderResource\RelationManagers;
+use App\Filament\Resources\FolderResource\Pages;
+use App\Filament\Resources\FolderResource\RelationManagers;
 use App\Models\Folder;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -17,13 +17,19 @@ class FolderResource extends Resource
 {
     protected static ?string $model = Folder::class;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->required(),
+                Forms\Components\FileUpload::make('icon_url')->previewable(false)->downloadable(),
+                Forms\Components\Select::make('parent_id')
+                    ->options(Folder::all()->pluck('name', 'id'))
             ]);
     }
 
@@ -31,7 +37,11 @@ class FolderResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable(),
+                Tables\Columns\ImageColumn::make('icon_url'),
+                Tables\Columns\TextColumn::make('parent.name')
+                    ->sortable()
             ])
             ->filters([
                 //
@@ -45,6 +55,12 @@ class FolderResource extends Resource
                 ]),
             ]);
     }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name'];
+    }
+
 
     public static function getRelations(): array
     {

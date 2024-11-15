@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->string("path");
-            $table->enum("type", ["image", "text", "doc", "audio", "video", "archive", "unknown"]);
-            $table->string("icon_url")->default('seed/file.svg');
+            $table->enum("type", ["image", "text", "doc", "audio", "video", "archive", "unknown"])->default('unknown');
+            $table->string("icon_url")->default(value: 'seed/file.svg');
 
 
             $table->unsignedBigInteger("folder_id")->nullable()->default(null);
