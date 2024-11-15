@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('folders', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->string("icon_url")->default('seed/folder.svg');
 
             $table->unsignedBigInteger("parent_id")->nullable()->default(null);
-
-            $table->unsignedBigInteger("user_id");
 
             $table->timestamps();
         });

@@ -32,9 +32,4 @@ class File extends Model
     {
         return $this->belongsTo(Folder::class);
     }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

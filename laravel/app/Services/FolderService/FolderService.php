@@ -12,12 +12,12 @@ class FolderService extends Service implements IFolderService
         private readonly Folder $folders,
     ) {}
 
-    public function getRootByUser(int $userId): Collection|Folder|null
+    public function getRoot(): Collection|Folder|null
     {
         $folders = $this->folders->where([
-            ["user_id", $userId],
             ["parent_id", null]
         ])->get();
+
         return $folders;
     }
 
@@ -25,22 +25,5 @@ class FolderService extends Service implements IFolderService
     {
         $folder = $this->folders->with('folders')->with('files')->find($folderId);
         return $folder;
-    }
-
-    public function create(array $data)
-    {
-        $folder = $this->folders->create($data);
-        return $folder;
-    }
-
-    public function update(int $id, array $data)
-    {
-        $folder = $this->folders->where("id", $id)->update($data);
-        return $folder;
-    }
-
-    public function delete(int $id): void
-    {
-        $this->folders->destroy($id);
     }
 }

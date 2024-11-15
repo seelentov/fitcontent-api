@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.2",
         "elasticsearch/elasticsearch": "dev-main",
+        "filament/filament": "^3.2",
         "filament/forms": "^3.2",
         "filament/tables": "^3.2",
         "laravel/framework": "^11.9",

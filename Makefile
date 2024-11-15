@@ -77,6 +77,11 @@ seed-admin:
 fresh:
 	docker compose exec laravel php artisan migrate:fresh
 
+refresh:
+	make fresh
+	make seed-admin
+	make seed
+
 # Запуск тестов
 test:
 	docker compose exec laravel php artisan test

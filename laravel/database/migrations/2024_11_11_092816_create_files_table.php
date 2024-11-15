@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->string("path");
-            $table->integer("size");
             $table->enum("type", ["image", "text", "doc", "audio", "video", "archive", "unknown"]);
+            $table->string("icon_url")->default('seed/file.svg');
 
-            $table->unsignedBigInteger("user_id");
+
             $table->unsignedBigInteger("folder_id")->nullable()->default(null);
 
             $table->timestamps();

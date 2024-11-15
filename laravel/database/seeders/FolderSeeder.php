@@ -21,7 +21,6 @@ class FolderSeeder extends Seeder
         foreach ($users as $user) {
             $rootFolder = Folder::create([
                 'name' => 'Root',
-                'user_id' => $user->id,
             ]);
 
             $subFolders = [
@@ -35,7 +34,6 @@ class FolderSeeder extends Seeder
                 Folder::create([
                     'name' => $name,
                     'parent_id' => $rootFolder->id,
-                    'user_id' => $user->id,
                 ]);
             }
         }

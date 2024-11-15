@@ -14,6 +14,17 @@ class User extends Authenticatable implements JWTSubject
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    const ROLE_ADMIN = 'admin';
+    const ROLE_USER = 'user';
+
+    public static function getRoles()
+    {
+        return [
+            self::ROLE_USER,
+            self::ROLE_ADMIN,
+        ];
+    }
+
     /**
      * The attributes that are mass assignable.
      *
