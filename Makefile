@@ -106,16 +106,16 @@ refresh:
 
 # Запуск тестов
 test:
-	docker compose exec laravel php artisan test --filter '/^((?!BaseServices).)*$/'
+	docker compose exec laravel php artisan test tests/Unit
   
 test-db:
-	docker compose exec laravel php artisan test tests/Unit/BaseServices/DBTest.php
+	docker compose exec laravel php artisan test tests/BaseServices/DBTest.php
 
 test-queue:
-	docker compose exec laravel php artisan test tests/Unit/BaseServices/QueueTest.php
+	docker compose exec laravel php artisan test tests/BaseServices/QueueTest.php
 
 test-redis:
-	docker compose exec laravel php artisan test tests/Unit/BaseServices/RedisTest.php
+	docker compose exec laravel php artisan test tests/BaseServices/RedisTest.php
 
 test-base:
 	@make test-db
