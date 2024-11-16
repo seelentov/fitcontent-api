@@ -14,7 +14,7 @@ class LoggingController extends Controller
             'password' => 'required',
         ]);
 
-        if (auth()->attempt($credentials) && auth()->user()->email === env('ADMIN_EMAIL')) {
+        if (Auth::attempt($credentials) && Auth::user()->email === env('ADMIN_EMAIL')) {
 
             $request->session()->regenerate();
 
