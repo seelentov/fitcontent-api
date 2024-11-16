@@ -11,6 +11,7 @@ services:
       - redis
       - rabbitmq
     command: ["php-fpm"]
+    restart: always
     ports:
       - '9002:9000'
     networks:
@@ -131,7 +132,7 @@ services:
   redis:
       image: redis:alpine
       container_name: redis
-      restart: unless-stopped
+      restart: always
       volumes:
       - ./docker/redis:/data
       ports:
