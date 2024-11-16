@@ -11,7 +11,7 @@ class ExampleTest extends TestCase
      * A basic unit test example.
      */
 
-    public function it_example(): void
+    public function test_it_example(): void
     {
         $this->assertTrue(true);
     }
