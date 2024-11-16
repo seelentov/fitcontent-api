@@ -28,7 +28,7 @@ class QueueTest extends TestCase
         return Queue::connection('rabbitmq')->size('test');
     }
 
-    public function test_send_message_to_rabbitmq()
+    public function test_send_message_to_rabbitmq_and_it_got_by_horizon()
     {
         $size = $this->getSize();
 
@@ -37,18 +37,11 @@ class QueueTest extends TestCase
         $size2 = $this->getSize();
 
         $this->assertTrue($size === ($size2 - 1));
-    }
 
-    public function test_send_message_to_rabbitmq_and_it_got_by_horizon()
-    {
-        TestJob::dispatch();
+        sleep(5);
 
-        $size = $this->getSize();
+        $size3 = $this->getSize();
 
-        sleep(6);
-
-        $size2 = $this->getSize();
-
-        $this->assertTrue($size >= $size2);
+        $this->assertTrue($size2 >= $size3);
     }
 }
