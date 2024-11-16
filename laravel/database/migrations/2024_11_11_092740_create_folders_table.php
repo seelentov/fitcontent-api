@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->string("icon_url")->default(value: 'seed/folder.svg');;
+            $table->unsignedBigInteger('position')->default(0);
 
             $table->unsignedBigInteger("parent_id")->nullable()->default(null);
 
