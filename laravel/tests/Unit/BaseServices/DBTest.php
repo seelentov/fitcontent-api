@@ -16,6 +16,7 @@ class DBTest extends TestCase
         $userData = [
             "name" => "John",
             'email' => 'john.doe@example.com',
+            'phone' => '63712637812',
             'password' => bcrypt('password'),
         ];
 
@@ -31,6 +32,8 @@ class DBTest extends TestCase
             "name" => "John",
             'email' => 'john.doe@example.com',
             'password' => bcrypt('password'),
+            'phone' => '63712637812',
+
         ];
 
         $user = User::factory()->create($userData);
@@ -54,6 +57,8 @@ class DBTest extends TestCase
             "name" => "John",
             'email' => 'john.doe@example.com',
             'password' => bcrypt('password'),
+            'phone' => '63712637812',
+
         ];
 
         $user = User::factory()->create($userData);
