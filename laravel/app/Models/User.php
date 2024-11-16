@@ -39,7 +39,8 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
         'password',
         'uuid',
         'phone',
-        "verified_at"
+        "verified_at",
+        "sub_date"
     ];
 
     /**
@@ -49,8 +50,7 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
      */
     protected $hidden = [
         'password',
-        'uuid',
-        "verified_at"
+        "verified_at",
     ];
 
     public $timestamps = false;
@@ -64,6 +64,7 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
     {
         return [
             'verified_at' => 'datetime',
+            'sub_date' => 'datetime',
             'password' => 'hashed',
         ];
     }

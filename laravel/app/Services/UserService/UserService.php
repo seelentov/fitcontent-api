@@ -43,10 +43,12 @@ class UserService extends Service implements IUserService
     public function create(array $data): User
     {
         $data['password'] = bcrypt($data['password']);
-        $data['uuid'] = Str::random(100);
 
         //Верификация сразу после регистрации
         $data['verified_at'] = now();
+
+        //Тестовый период
+        $data['sub_date'] = now()->addDays(20);
 
         $user = $this->users->create($data);
 

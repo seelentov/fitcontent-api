@@ -2,8 +2,14 @@ include .env
 
 # Инициализация проекта
 init:
+	# Очистить данные если они есть
+	@make clear-data
+	# Создать файлы конфигурации SSL
+	# @make generate-keys
+	# Создает файл .env, если он отсутствует, создает ссылку
+	@make env
 	# Строит и запускает контейнеры в фоновом режиме
-	docker compose up -d --build
+	docker compose up -d
 	# Устанавливает зависимости проекта
 	docker compose exec laravel composer install
 	# Устанавливает Filament
@@ -12,27 +18,28 @@ init:
 	@make fresh
 	# Создает администратора
 	@make seed-admin
+	# Заполнение бд тестовыми данными
+	@make seed
 	# Запускает воркеров в фоновом режиме
 	docker compose --profile workers up -d
-	# sleep 5s
+	sleep 5s
 	# Приостанавливает тестировочный супервайзер
-	# @make stop-test-horizon
+	@make stop-test-horizon
 	# Генерирует ключ приложения
 	docker compose exec laravel php artisan key:generate
 	# Создает символические ссылки для директории storage
 	docker compose exec laravel php artisan storage:link
-	# Создает jwt secret
-	docker compose exec laravel php artisan jwt:secret
 	# Устанавливает права доступа для директории storage
 	docker compose exec laravel chmod -R 777 storage bootstrap/cache
 
 # Запуск контейнеров
 up:
 	# Запускает все сервисы в фоновом режиме
-	docker compose --profile "*" up -d
-	# sleep 5s
+	docker compose up -d
+	docker compose --profile workers up -d
+	sleep 5s
 	# Приостанавливает тестировочный супервайзер
-	# @make stop-test-horizon
+	@make stop-test-horizon
 
 # Остановка контейнеров
 stop:
@@ -77,50 +84,23 @@ seed-admin:
 fresh:
 	docker compose exec laravel php artisan migrate:fresh
 
+# Очистка базы данных, запуск миграции, запуск главных сидов и вида админа
 refresh:
-	make fresh
-	make seed-admin
-	make seed
+	@make fresh
+	@make seed
+	@make seed-admin
 
 # Запуск тестов
 test:
 	docker compose exec laravel php artisan test
 
 # Вывод логов для всех контейнеров
-logs:
+logs-all:
 	docker compose logs
 
 # Вывод логов для всех контейнеров с отслеживанием вывода
-watch:
+watch-all:
 	docker compose logs --follow
-
-# Вывод логов для nginx
-web-logs:
-	docker compose logs nginx
-
-# Вывод логов для nginx с отслеживанием вывода
-web-watch:
-	docker compose logs nginx --follow
-
-# Перезагрузка конфигурации nginx
-nginx-reload:
-	sudo docker compose exec nginx nginx -t && sudo docker compose exec nginx nginx -s reload
-
-# Вывод логов для контейнера laravel
-laravel-logs:
-	docker compose logs laravel
-
-# Вывод логов для контейнера laravel с отслеживанием вывода
-laravel-watch:
-	docker compose logs laravel --follow
-
-# Вывод логов для elasticsearch
-es-logs:
-	docker compose logs elasticsearch
-
-# Вывод логов для elasticsearch с отслеживанием вывода
-es-watch:
-	docker compose logs elasticsearch --follow
 
 # Вывод статуса Horizon
 horizon-status:
@@ -134,25 +114,9 @@ horizon-pause:
 horizon-continue:
 	docker compose exec horizon php artisan horizon:continue
 
-# Вывод логов Horizon
-horizon-logs:
-	docker compose logs horizon
-
-# Вывод логов Horizon с отслеживанием вывода
-horizon-watch:
-	docker compose logs horizon --follow
-
 # Приостанавливает тестировочный супервайзер
 stop-test-horizon:
 	docker compose exec horizon php artisan horizon:pause-supervisor supervisor-test
-
-# Вывод логов планировщика задач
-schedule-logs:
-	docker compose logs schedule
-
-# Вывод логов планировщика задач с отслеживанием вывода
-schedule-watch:
-	docker compose logs schedule --follow
 
 # Создание файла .env, если он отсутствует
 env:
@@ -161,18 +125,6 @@ env:
 	  # Копирует файл .env.example в .env
 	  cp .env.example .env; \
 	fi
-
-# Установка переменных окружения
-setenv:
-	# Пример:
-	# @make setenv APP_ENV=production
-	# Добавляет переменную окружения в файл .env
-	echo "export $1=$2" >> .env
-
-
-# Открыть bash-консоль в контейнере laravel
-bash:
-	docker compose exec laravel bash
 
 # Открыть консоль MySQL
 mysql:
@@ -188,7 +140,7 @@ psql:
 
 # Сделать дамп базы данных PostgreSQL
 pgdump:
-	sudo docker compose exec db pg_dump -h ${DB_HOST} -p ${DB_PORT} -d ${DB_DATABASE} -U ${DB_USERNAME} > ${DB_DATABASE}.dump
+	sudo docker compose exec db pg_dump -h ${DB_HOST} -p ${DB_PORT} -d ${DB_DATABASE} -U ${DB_USERNAME} > backups/${DB_DATABASE}_$(shell date +"%d-%m-%Y-%H:%M:%S").dump
 
 # Сгенерировать секретный ключ JWT
 jwt:
@@ -234,9 +186,8 @@ cache-clear:
 dump-autoload:
 	docker compose exec laravel composer dump-autoload
 
-# Связать файл .env с Laravel
+# Связать файл .env с контейнерами Laravel
 env:
-	touch .env
 	rm -rf ./laravel/.env
 	ln .env ./laravel
 
@@ -248,19 +199,22 @@ redis:
 check:
 	curl -s -o /dev/null -w "%{http_code}\n" http://localhost
 
-# Переиндексировать ElasticSearch
-elastic-reindex:
-	docker compose exec laravel php artisan search:reindex
-
 # Создать резервную копию базы данных и файлов приложения
 backup:
-	tar -czvf backups/$(shell date +"%d-%m-%Y-%H:%M:%S").tar.gz --exclude=backups/* docker/*
+	tar -czvf backups/$(shell date +"%d-%m-%Y-%H:%M:%S").tar.gz \
+	--exclude=backups/* \
+	--exclude=laravel/vendor/* \
+	--exclude=docker/data/* \
+	* \
+	&& \
+	make pg_dump
 
-# Сгенерировать SSL-сертификаты
-ssl:
-	docker compose exec nginx apt update
-	docker compose exec nginx apk add certbot certbot-nginx
-	docker compose exec nginx certbot --nginx
+
+# Удалить данные из /docker
+clear-data:
+	rm -rf $(shell pwd)/docker/dada
+	rm -rf $(shell pwd)/docker/redis
+	rm -rf $(shell pwd)/docker/rabbitmq
 
 # Настроить брандмауэр UFW
 ufw:
@@ -269,3 +223,54 @@ ufw:
 	ufw allow http
 	ufw allow https
 	ufw enable
+
+# Создать файлы конфигурации SSL
+generate-nginx-keys:
+	openssl genrsa > docker/nginx/etc-letsencrypt/live/${DOMAIN}/privkey.pem
+	openssl req -new -x509 -key docker/nginx/etc-letsencrypt/live/${DOMAIN}/privkey.pem > docker/nginx/etc-letsencrypt/live/${DOMAIN}/fullchain.pem
+
+#Запуск certbot
+certbot:
+	docker compose up certbot
+
+#Установить docker на хост-машину
+install-docker:
+	apt-get update
+	apt-get install ca-certificates curl
+	install -m 0755 -d /etc/apt/keyrings
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+	chmod a+r /etc/apt/keyrings/docker.asc
+
+	echo \
+  	"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  	$(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  	tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+	apt-get update
+
+
+#Установить nodejs + npm на хост машину
+install-node:
+	apt update
+	apt install -y nodejs npm
+	npm cache clean -f
+	npm install -g n
+	n stable
+	hash -r
+
+#Просмотр журнала у контейнера с отслеживанием
+watch:
+	docker compose logs $$S --follow
+
+#Просмотр журнала у контейнера
+logs:
+	docker compose logs $$S
+
+#Откатить локальные изменения git и pull
+git-drop:
+	git stash push --include-untracked
+	git stash drop
+
+#Вход в tinker
+tinker:
+	docker compose exec laravel php artisan tinker

@@ -87,11 +87,16 @@ class AuthController extends Controller
 
         $user = $this->users->create($data);
 
-        if (!$user) {
-            return response()->json(['message' => __("authorization.ERROR")], 501);
+        if (!is_null($user)) {
+            $token = auth()->attempt([
+                'phone' => $user->phone,
+                'password' => $data['password']
+            ]);
+
+            return response()->json($this->respondWithToken($token), 200);
         }
 
-        return response()->json(['message' => __("authorization.REGISTERED")]);
+        return response()->json(['message' => __("authorization.ERROR")], 501);
     }
 
     /**
