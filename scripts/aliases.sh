@@ -2,6 +2,7 @@
 
 functions=(
     'dcup() { sudo docker compose up "$1"; }'
+    'dcupd() { sudo docker compose up "$1" -d; }'
     'dcdestroy() { sudo docker compose down "$1" --remove-orphans --volumes; }'
     'dcdown() { sudo docker compose down "$1"; }'
     'dclogs() { sudo docker compose logs "$1"; }'
