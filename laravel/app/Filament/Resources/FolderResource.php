@@ -32,9 +32,7 @@ class FolderResource extends Resource
                     ->options(Folder::all()->pluck('name', 'id')),
                 Forms\Components\TextInput::make('position')
                     ->numeric()
-                    ->minValue(0),
-                Forms\Components\DatePicker::make('created_at'),
-                Forms\Components\DatePicker::make('updated_at'),
+                    ->minValue(0)
             ]);
     }
 
@@ -48,6 +46,12 @@ class FolderResource extends Resource
                 Tables\Columns\TextColumn::make('parent.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('position')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->date()
                     ->sortable(),
 
             ])
