@@ -3,7 +3,7 @@
 functions=(
 'dcps() { sudo docker compose ps; }'
  'dcup() { sudo docker compose up "$1"; }'
- 'dcdestroy() { sudo docker compose down "$1" --rmi all --volumes --remove-orphans; }'
+ 'dcdestroy() { sudo docker compose down "$1" --remove-orphans --volumes; }'
  'dcdown() { sudo docker compose down "$1"; }'
  'dclogs() { sudo docker compose logs "$1"; }'
  'dcwatch() { sudo docker compose logs "$1" --follow; }'
