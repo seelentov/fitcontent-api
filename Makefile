@@ -106,8 +106,8 @@ refresh:
 
 # Запуск тестов
 test:
-	docker compose exec laravel php artisan test --exclude="tests/Unit/BaseServices*"
-
+	docker compose exec laravel php artisan test tests/Unit/* --filter '/^((?!BaseServices).)*$/'
+  
 test-db:
 	docker compose exec laravel php artisan test tests/Unit/BaseServices/DBTest.php
 
