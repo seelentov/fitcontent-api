@@ -36,15 +36,12 @@ class QueueTest extends TestCase
     {
         TestJob::dispatch();
 
-        $this->artisan('horizon:continue-supervisor', ['name' => 'supervisor-test']);
+        $size2 = $this->getSize();
 
-        for ($i = 0; $this->getSize() !== 0; $i++) {
-            if ($i === 10) {
-                throw new \Exception("Queue not cleared by horizon");
-            }
-            sleep(1);
-        }
+        sleep(6);
 
-        $this->assertTrue(true);
+        $size3 = $this->getSize();
+
+        $this->assertTrue($size2 < $size3);
     }
 }
