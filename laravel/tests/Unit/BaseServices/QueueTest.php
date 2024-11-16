@@ -10,8 +10,9 @@ class QueueTest extends TestCase
 {
     protected function setUp(): void
     {
-        $this->artisan('horizon:continue-supervisor', ['name' => 'supervisor-test']);
         parent::setUp();
+
+        $this->artisan('horizon:continue-supervisor', ['name' => 'supervisor-test']);
     }
 
 
