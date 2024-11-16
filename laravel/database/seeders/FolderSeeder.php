@@ -15,27 +15,22 @@ class FolderSeeder extends Seeder
      */
     public function run()
     {
-        // Get all existing users
-        $users = User::all();
+        $rootFolder = Folder::create([
+            'name' => 'Root',
+        ]);
 
-        foreach ($users as $user) {
-            $rootFolder = Folder::create([
-                'name' => 'Root',
+        $subFolders = [
+            'Documents',
+            'Images',
+            'Videos',
+            'Downloads',
+        ];
+
+        foreach ($subFolders as $name) {
+            Folder::create([
+                'name' => $name,
+                'parent_id' => $rootFolder->id,
             ]);
-
-            $subFolders = [
-                'Documents',
-                'Images',
-                'Videos',
-                'Downloads',
-            ];
-
-            foreach ($subFolders as $name) {
-                Folder::create([
-                    'name' => $name,
-                    'parent_id' => $rootFolder->id,
-                ]);
-            }
         }
     }
 }
