@@ -106,16 +106,21 @@ refresh:
 
 # Запуск тестов
 test:
-	docker compose exec laravel php artisan test
+	docker compose exec laravel php artisan test --exclude="tests/Unit/BaseServices*"
 
 test-db:
-	docker compose exec laravel vendor/bin/phpunit tests/Unit/BaseServices/DBTest.php
+	docker compose exec laravel php artisan test tests/Unit/BaseServices/DBTest.php
 
 test-queue:
-	docker compose exec laravel vendor/bin/phpunit tests/Unit/BaseServices/QueueTest.php
+	docker compose exec laravel php artisan test tests/Unit/BaseServices/QueueTest.php
 
 test-redis:
-	docker compose exec laravel vendor/bin/phpunit tests/Unit/BaseServices/RedisTest.php
+	docker compose exec laravel php artisan test tests/Unit/BaseServices/RedisTest.php
+
+test-base:
+	@make test-db
+	@make test-queue
+	@make test-redis
 
 # Вывод логов для всех контейнеров
 logs-all:
