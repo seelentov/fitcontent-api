@@ -2,6 +2,8 @@ include .env
 
 # Инициализация проекта
 init:
+	# Создание пользователя для rabbitmq
+	@make rabbitinit
 	# Очистить данные если они есть
 	@make clear-data
 	# Создать файлы конфигурации SSL
@@ -40,6 +42,18 @@ up:
 	sleep 5s
 	# Приостанавливает тестировочный супервайзер
 	@make stop-test-horizon
+
+# Переносит definitions из главной папки в rabbitinit, прописав пользователя и пароль из env
+rabbitinit:
+	chmod +x scripts/rabbitpass.sh
+	rm -rf definitions.json.temp
+	cp definitions.json definitions.json.temp
+
+	sed -i "s#defpass#$(shell scripts/rabbitpass.sh ${RABBITMQ_PASSWORD})#" definitions.json.temp
+		sed -i "s#defuser#${RABBITMQ_USER}#" definitions.json.temp
+
+	rm -rf docker/rabbitinit/definitions.json
+	mv definitions.json.temp docker/rabbitinit/definitions.json
 
 # Остановка контейнеров
 stop:

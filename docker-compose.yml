@@ -119,6 +119,7 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
     ports:
+        - ${RABBITMQ_ADMIN_PORT}:${RABBITMQ_ADMIN_PORT}
         - ${RABBITMQ_PORT}:${RABBITMQ_PORT}
     restart: always
     volumes:
@@ -134,6 +135,10 @@ services:
       restart: always
       volumes:
       - ./docker/redis:/data
+      command:
+        - /bin/sh
+        - -c
+        - redis-server --requirepass ${REDIS_PASSWORD}
       ports:
         - ${REDIS_PORT}:${REDIS_PORT}
       networks:

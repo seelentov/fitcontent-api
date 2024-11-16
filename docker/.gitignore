@@ -1,12 +1,14 @@
 **
 data/**
 data
+rabbitinit/definitions.json
 
 !nginx
 !nginx/conf.d
 !nginx/conf.d/*
 
 !rabbitinit
-!rabbitinit/*
+!rabbitinit/rabbitmq.conf
+rabbitinit/definitions.json
 
 !.gitignore

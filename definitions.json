@@ -50,8 +50,8 @@
     ],
     "users": [
         {
-            "name": "guest",
-            "password_hash": "BMfxN8drrYcIqXZMr+pWTpDT0nMcOagMduLX0bjr4jwud/pN",
+            "name": "defuser",
+            "password_hash": "defpass",
             "hashing_algorithm": "rabbit_password_hashing_sha256",
             "tags": [
                 "administrator"
@@ -66,7 +66,7 @@
     ],
     "permissions": [
         {
-            "user": "guest",
+            "user": "defuser",
             "vhost": "/",
             "configure": ".*",
             "write": ".*",
