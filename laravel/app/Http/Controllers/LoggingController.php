@@ -33,6 +33,6 @@ class LoggingController extends Controller
 
     public function me()
     {
-        response()->json(Auth::user());
+        return response()->json(Auth::user());
     }
 }
