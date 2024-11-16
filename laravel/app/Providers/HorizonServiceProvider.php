@@ -28,7 +28,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate(): void
     {
         Gate::define('viewHorizon', function ($user = null) {
-            Auth::guard('web')->check();
+            return Auth::guard('web')->user()->email === env("ADMIN_EMAIL");
         });
     }
 }
