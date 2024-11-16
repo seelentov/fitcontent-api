@@ -267,9 +267,12 @@ tinker:
 	docker compose exec laravel php artisan tinker
 
 
-#Загрузка алиасов в bash
+#Загрузить алиасы в .bashrc
 alias:
-	chmod +x ./scripts/aliases.sh
+	chmod +x scripts/aliases.sh
 	./scripts/aliases.sh
-	source ~/.bashrc
-	@make git-drop
+	make git-drop
+
+#Очистить доги docker контейнеров
+clear-logs:
+	truncate -s 0 /var/lib/docker/containers/**/*-json.log
