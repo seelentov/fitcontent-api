@@ -36,13 +36,13 @@ class RedisTest extends TestCase
 
     public function test_it_can_set_get_with_ttl(): void
     {
-        Redis::set("foo", "bar", 'EX', 5);
+        Redis::set("foo", "bar", 'EX', 2);
 
         $foo = Redis::get("foo");
 
         $this->assertEquals("bar", $foo);
 
-        sleep(6);
+        sleep(3);
 
         $foo_after_ttl = Redis::get("foo");
 
@@ -63,10 +63,10 @@ class RedisTest extends TestCase
     {
         Redis::set("foo", "bar");
 
-        Redis::expire("foo", 10);
+        Redis::expire("foo", 3);
 
         $ttl = Redis::ttl("foo");
 
-        $this->assertTrue($ttl >= 9 && $ttl <= 10);
+        $this->assertTrue($ttl >= 2 && $ttl <= 4);
     }
 }
