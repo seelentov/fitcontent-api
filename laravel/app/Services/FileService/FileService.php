@@ -15,7 +15,7 @@ class FileService extends Service implements IFileService
     {
         $folders = $this->files->where([
             ["folder_id", null]
-        ])->get();
+        ])->orderBy("position", "ASC")->get();
 
         return $folders;
     }

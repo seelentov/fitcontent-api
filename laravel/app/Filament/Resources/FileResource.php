@@ -32,8 +32,13 @@ class FileResource extends Resource
                 Forms\Components\FileUpload::make('path')->required()->previewable(false)->downloadable(),
                 Forms\Components\Select::make('type')
                     ->options(FileTypeOptions::class),
+                Forms\Components\TextInput::make('position')
+                    ->numeric()
+                    ->minValue(0),
                 Forms\Components\Select::make('folder_id')
                     ->relationship(name: 'folder', titleAttribute: 'name'),
+                Forms\Components\DatePicker::make('created_at'),
+                Forms\Components\DatePicker::make('updated_at'),
             ]);
     }
 
@@ -48,7 +53,15 @@ class FileResource extends Resource
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('icon_url'),
                 Tables\Columns\TextColumn::make('folder.name')
-                    ->sortable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('position')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->date()
+                    ->sortable(),
             ])
             ->filters([
                 //

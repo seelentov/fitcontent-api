@@ -29,7 +29,12 @@ class FolderResource extends Resource
                     ->required(),
                 Forms\Components\FileUpload::make('icon_url')->previewable(false)->downloadable(),
                 Forms\Components\Select::make('parent_id')
-                    ->options(Folder::all()->pluck('name', 'id'))
+                    ->options(Folder::all()->pluck('name', 'id')),
+                Forms\Components\TextInput::make('position')
+                    ->numeric()
+                    ->minValue(0),
+                Forms\Components\DatePicker::make('created_at'),
+                Forms\Components\DatePicker::make('updated_at'),
             ]);
     }
 
@@ -41,7 +46,15 @@ class FolderResource extends Resource
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('icon_url'),
                 Tables\Columns\TextColumn::make('parent.name')
-                    ->sortable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('position')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->date()
+                    ->sortable(),
             ])
             ->filters([
                 //

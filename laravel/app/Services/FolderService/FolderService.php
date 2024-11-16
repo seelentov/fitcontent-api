@@ -16,14 +16,19 @@ class FolderService extends Service implements IFolderService
     {
         $folders = $this->folders->where([
             ["parent_id", null]
-        ])->get();
+        ])->orderBy("position", "ASC")->get();
 
         return $folders;
     }
 
     public function getById(int $folderId): Folder|null
     {
-        $folder = $this->folders->with('folders')->with('files')->find($folderId);
+        $folder = $this->folders->with(['folders' => function ($query) {
+            $query->orderBy('position', 'ASC');
+        }, 'files' => function ($query) {
+            $query->orderBy('position', 'ASC');
+        }])->find($folderId);
+
         return $folder;
     }
 }
