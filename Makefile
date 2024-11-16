@@ -256,17 +256,8 @@ install-node:
 	npm cache clean -f
 	npm install -g n
 	n stable
-	hash -r
+	source ~/.bashrc
 
-#Просмотр журнала у контейнера с отслеживанием
-watch:
-	docker compose logs $$S --follow
-
-#Просмотр журнала у контейнера
-logs:
-	docker compose logs $$S
-
-#Откатить локальные изменения git и pull
 git-drop:
 	git stash push --include-untracked
 	git stash drop
