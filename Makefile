@@ -265,3 +265,11 @@ git-drop:
 #Вход в tinker
 tinker:
 	docker compose exec laravel php artisan tinker
+
+
+#Загрузка алиасов в bash
+alias:
+	chmod +x ./scripts/aliases.sh
+	./scripts/aliases.sh
+	source ~/.bashrc
+	@make git-drop
