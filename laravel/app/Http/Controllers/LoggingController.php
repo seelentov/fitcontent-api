@@ -30,4 +30,9 @@ class LoggingController extends Controller
     {
         return view("logging.auth");
     }
+
+    public function me()
+    {
+        response()->json(Auth::user());
+    }
 }

@@ -7,4 +7,5 @@ use Filament\Facades\Filament;
 Route::group(["prefix" => "logging", 'middleware' => 'web'], function () {
     Route::post('auth', [LoggingController::class, 'auth'])->name('logging_auth');
     Route::get('auth', [LoggingController::class, 'login'])->name('logging_login');
+    Route::get('me', [LoggingController::class, 'me'])->name('logging_me');
 });
