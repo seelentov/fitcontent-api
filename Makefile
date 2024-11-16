@@ -108,6 +108,15 @@ refresh:
 test:
 	docker compose exec laravel php artisan test
 
+test-db:
+	docker compose exec laravel vendor/bin/phpunit tests/Unit/BaseServices/DBTest.php
+
+test-queue:
+	docker compose exec laravel vendor/bin/phpunit tests/Unit/BaseServices/QueueTest.php
+
+test-redis:
+	docker compose exec laravel vendor/bin/phpunit tests/Unit/BaseServices/RedisTest.php
+
 # Вывод логов для всех контейнеров
 logs-all:
 	docker compose logs
