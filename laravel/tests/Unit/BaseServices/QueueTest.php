@@ -8,6 +8,12 @@ use Tests\TestCase;
 
 class QueueTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        $this->artisan('horizon:continue-supervisor', ['name' => 'supervisor-test']);
+        parent::setUp();
+    }
+
 
     protected function tearDown(): void
     {
@@ -23,6 +29,9 @@ class QueueTest extends TestCase
 
     public function test_send_message_to_rabbitmq()
     {
+
+
+
         $size = $this->getSize();
 
         TestJob::dispatch();
