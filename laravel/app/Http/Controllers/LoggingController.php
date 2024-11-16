@@ -14,7 +14,7 @@ class LoggingController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials) && Auth::user()->email === env('ADMIN_EMAIL')) {
+        if (Auth::guard('web')->attempt($credentials) && Auth::guard('web')->user()->email === env('ADMIN_EMAIL')) {
 
             $request->session()->regenerate();
 
@@ -33,6 +33,6 @@ class LoggingController extends Controller
 
     public function me()
     {
-        return response()->json(Auth::user());
+        return response()->json(Auth::guard('web')->user());
     }
 }
