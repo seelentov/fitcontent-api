@@ -49,12 +49,7 @@ class FolderResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('position')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->date()
-                    ->sortable(),
+
             ])
             ->filters([
                 //
