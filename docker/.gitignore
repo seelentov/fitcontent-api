@@ -1,0 +1,12 @@
+**
+data/**
+data
+
+!nginx
+!nginx/conf.d
+!nginx/conf.d/*
+
+!rabbitinit
+!rabbitinit/*
+
+!.gitignore

@@ -1,2 +1,4 @@
 .env
 docker/data/.gitkeep
+docker/data/.gitignore
+docker/data/.gitignore
