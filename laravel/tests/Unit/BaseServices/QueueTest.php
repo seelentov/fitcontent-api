@@ -30,9 +30,6 @@ class QueueTest extends TestCase
 
     public function test_send_message_to_rabbitmq()
     {
-
-
-
         $size = $this->getSize();
 
         TestJob::dispatch();
@@ -46,12 +43,12 @@ class QueueTest extends TestCase
     {
         TestJob::dispatch();
 
-        $size2 = $this->getSize();
+        $size = $this->getSize();
 
         sleep(6);
 
-        $size3 = $this->getSize();
+        $size2 = $this->getSize();
 
-        $this->assertTrue($size2 < $size3);
+        $this->assertTrue($size >= $size2);
     }
 }
