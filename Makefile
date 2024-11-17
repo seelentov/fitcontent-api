@@ -313,5 +313,9 @@ logs:
 watch:
 	docker compose logs --follow
 
+#Статистика контейнеров
+stats:
+	docker stats 
+
 clear-logs:
 	truncate -s 0 /var/lib/docker/containers/**/*-json.log
