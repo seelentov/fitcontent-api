@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\InfoService\IInfoService;
 use App\Services\InfoService\InfoService;
 
 class InfoController extends Controller
 {
     public function __construct(
-        private readonly InfoService $info,
+        private readonly IInfoService $info,
     ) {}
 
     public function index()

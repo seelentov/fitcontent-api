@@ -2,8 +2,20 @@
 
 namespace App\Providers;
 
+use App\Models\File;
+use App\Models\Folder;
+use App\Models\Info;
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 use App\Services;
+use App\Services\FileService\FileService;
+use App\Services\FileService\IFileService;
+use App\Services\FolderService\FolderService;
+use App\Services\FolderService\IFolderService;
+use App\Services\InfoService\IInfoService;
+use App\Services\InfoService\InfoService;
+use App\Services\UserService\IUserService;
+use App\Services\UserService\UserService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,24 +25,32 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            Services\FileService\IFileService::class,
-            Services\FileService\FileService::class
+            IFileService::class,
+            function ($app) {
+                return new FileService($app->make(File::class));
+            }
         );
 
         $this->app->bind(
-            Services\FolderService\IFolderService::class,
-            Services\FolderService\FolderService::class
-        );
-
-        $this->app->bind(
-            Services\UserService\IUserService::class,
-            Services\UserService\UserService::class
+            IFolderService::class,
+            function ($app) {
+                return new FolderService($app->make(Folder::class));
+            }
         );
 
 
         $this->app->bind(
-            Services\InfoService\IInfoService::class,
-            Services\InfoService\InfoService::class
+            IUserService::class,
+            function ($app) {
+                return new UserService($app->make(User::class));
+            }
+        );
+
+        $this->app->bind(
+            IInfoService::class,
+            function ($app) {
+                return new InfoService($app->make(Info::class));
+            }
         );
     }
 

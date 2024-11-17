@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AuthStoreRequest;
 use App\Http\Requests\Auth\AuthIndexRequest;
-use App\Services\UserService\UserService;
+use App\Services\UserService\IUserService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AuthController extends Controller
@@ -18,7 +18,7 @@ class AuthController extends Controller
      * @return void
      */
     public function __construct(
-        private readonly UserService $users
+        private readonly IUserService $users
     ) {
         $this->middleware('auth:api', ['except' => ['login', 'register', 'verify']]);
     }
