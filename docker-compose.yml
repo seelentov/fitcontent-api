@@ -115,9 +115,6 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq
     hostname: ${RABBITMQ_HOST}
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
     ports:
         - ${RABBITMQ_ADMIN_PORT}:${RABBITMQ_ADMIN_PORT}
         - ${RABBITMQ_PORT}:${RABBITMQ_PORT}
