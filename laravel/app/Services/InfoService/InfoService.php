@@ -15,7 +15,7 @@ class InfoService extends Service implements IInfoService
 
     public function getAll()
     {
-        $info = $this->info->orderBy("position", "asc")->all();
+        $info = $this->info->orderBy("position", "asc")->get();
         return $info;
     }
     public function getBySlug(string $slug)
