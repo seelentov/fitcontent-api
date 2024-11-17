@@ -214,11 +214,6 @@ cache-clear:
 dump-autoload:
 	docker compose exec laravel composer dump-autoload
 
-# Связать файл .env с контейнерами Laravel
-env:
-	rm -rf ./laravel/.env
-	ln .env ./laravel
-
 # Открыть консоль Redis
 redis:
 	docker compose exec redis redis-cli
@@ -240,9 +235,21 @@ backup:
 
 # Удалить данные из /docker
 clear-data:
-	rm -rf $(shell pwd)/docker/dada
-	rm -rf $(shell pwd)/docker/redis
+	@make clear-rabbitmq
+	@make clear-redis
+	@make clear-db
+
+# Удалить данные rabbitmq
+clear-rabbitmq:
 	rm -rf $(shell pwd)/docker/rabbitmq
+
+# Удалить данные redis
+clear-redis:
+	rm -rf $(shell pwd)/docker/redis
+
+# Удалить данные базы данных
+clear-db:
+	rm -rf $(shell pwd)/docker/data
 
 # Настроить брандмауэр UFW
 ufw:
@@ -286,6 +293,10 @@ install-node:
 	n stable
 	source ~/.bashrc
 
+#Установить php + composer на хост машину
+install-php:
+	/bin/bash -c "$(curl -fsSL https://php.new/install/linux)"
+
 git-drop:
 	git stash push --include-untracked
 	git stash drop
@@ -300,10 +311,6 @@ alias:
 	chmod +x scripts/aliases.sh
 	./scripts/aliases.sh
 	make git-drop
-
-#Очистить доги docker контейнеров
-clear-logs:
-	truncate -s 0 /var/lib/docker/containers/**/*-json.log
 
 #Логи всего compose
 logs:
