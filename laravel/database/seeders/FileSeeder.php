@@ -16,36 +16,59 @@ class FileSeeder extends Seeder
      */
     public function run()
     {
-        $sampleFiles = [
-            "seed/sample.jpg" => File::TYPE_IMAGE,
-            "seed/sample.mp3" => File::TYPE_AUDIO,
-            "seed/sample.mp4" => File::TYPE_VIDEO,
-            "seed/sample.pdf" => File::TYPE_DOC,
-            "seed/sample.txt" => File::TYPE_TEXT,
-        ];
+        $music_folder = Folder::where("name", 'Music')->with("folders")->get();
 
-        $folders = Folder::all();
+        foreach ($music_folder->folders as $folder) {
 
-        foreach ($folders as $folder) {
-            foreach ($sampleFiles as $path => $type) {
+            for ($i = 0; $i < 8; $i++) {
                 File::create([
-                    'name' => basename($path),
-                    'path' => $path,
+                    'name' => "Track" . $i,
+                    'path' => "seed/sample.mp3",
                     'folder_id' => $folder->id,
-                    'type' => $type,
+                    'type' => File::TYPE_AUDIO,
                 ]);
             }
         }
 
-        $users = User::all();
+        $video_folder = Folder::where("name", 'Video')->with("folders")->get();
 
-        foreach ($users as $user) {
-            foreach ($sampleFiles as $path => $type) {
+        foreach ($video_folder->folders as $folder) {
+
+            for ($i = 0; $i < 8; $i++) {
                 File::create([
-                    'name' => basename($path),
-                    'path' => $path,
-                    'folder_id' => null,
-                    'type' => $type,
+                    'name' => "Video" . $i,
+                    'path' => "seed/sample.mp4",
+                    'folder_id' => $folder->id,
+                    'type' => File::TYPE_VIDEO,
+                ]);
+            }
+        }
+
+
+        $doc_folder = Folder::where("name", 'Docs')->with("folders")->get();
+
+        foreach ($doc_folder->folders as $folder) {
+
+            for ($i = 0; $i < 8; $i++) {
+                File::create([
+                    'name' => "Doc" . $i,
+                    'path' => "seed/sample.pdf",
+                    'folder_id' => $folder->id,
+                    'type' => File::TYPE_DOC,
+                ]);
+            }
+        }
+
+        $image_folder = Folder::where("name", 'Images')->with("folders")->get();
+
+        foreach ($image_folder->folders as $folder) {
+
+            for ($i = 0; $i < 8; $i++) {
+                File::create([
+                    'name' => "Image" . $i,
+                    'path' => "seed/sample.jpg",
+                    'folder_id' => $folder->id,
+                    'type' => File::TYPE_IMAGE,
                 ]);
             }
         }
