@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FolderController;
+use App\Http\Controllers\InfoController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,5 +32,12 @@ Route::group([], function () {
         'middleware' => ['api'],
     ], function () {
         Route::get('{id}', [FileController::class, 'show'])->name('file');;
+    });
+
+    Route::group([
+        'prefix' => 'info',
+        'middleware' => ['api'],
+    ], function () {
+        Route::get('{slug}', [InfoController::class, 'show'])->name('info');;
     });
 });
