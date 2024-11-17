@@ -304,3 +304,14 @@ alias:
 #Очистить доги docker контейнеров
 clear-logs:
 	truncate -s 0 /var/lib/docker/containers/**/*-json.log
+
+#Логи всего compose
+logs:
+	docker compose logs
+	
+#Логи всего compose c отслеживанием
+watch:
+	docker compose logs --follow
+
+clear-logs:
+	truncate -s 0 /var/lib/docker/containers/**/*-json.log
