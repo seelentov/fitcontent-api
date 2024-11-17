@@ -18,7 +18,7 @@ class FileSeeder extends Seeder
     {
 
         $music_folder = Folder::where("name", 'Music')->first();
-        $music_folders = File::where('parent_id', $music_folder->id->get())->get();
+        $music_folders = File::where('parent_id', $music_folder->id)->get();
 
         foreach ($music_folders as $folder) {
 
@@ -33,7 +33,7 @@ class FileSeeder extends Seeder
         }
 
         $video_folder = Folder::where("name", 'Video')->first();
-        $video_folders = File::where('parent_id', $video_folder->id->get())->get();
+        $video_folders = File::where('parent_id', $video_folder->id)->get();
 
         foreach ($video_folders as $folder) {
 
@@ -48,7 +48,7 @@ class FileSeeder extends Seeder
         }
 
         $docs_folder = Folder::where("name", 'Docs')->first();
-        $docs_folders = File::where('parent_id', $docs_folder->id->get())->get();
+        $docs_folders = File::where('parent_id', $docs_folder->id)->get();
 
         foreach ($docs_folders as $folder) {
 
@@ -63,7 +63,7 @@ class FileSeeder extends Seeder
         }
 
         $image_folder = Folder::where("name", 'Images')->first();
-        $image_folders = File::where('parent_id', $image_folder->id->get())->get();
+        $image_folders = File::where('parent_id', $image_folder->id)->get();
 
         foreach ($image_folders as $folder) {
 
