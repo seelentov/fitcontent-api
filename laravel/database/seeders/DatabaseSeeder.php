@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             FolderSeeder::class,
             FileSeeder::class,
+            InfoSeeder::class,
         ]);
     }
 }
