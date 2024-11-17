@@ -38,6 +38,7 @@ Route::group([], function () {
         'prefix' => 'info',
         'middleware' => ['api'],
     ], function () {
+        Route::get('', [InfoController::class, 'index'])->name('infos');;
         Route::get('{slug}', [InfoController::class, 'show'])->name('info');;
     });
 });

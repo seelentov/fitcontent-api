@@ -10,6 +10,13 @@ class InfoController extends Controller
         private readonly InfoService $info,
     ) {}
 
+    public function index()
+    {
+        $info = $this->info->getAll();
+
+        return response()->json($info);
+    }
+
     public function show(string $slug)
     {
         $info = $this->info->getBySlug($slug);

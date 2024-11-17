@@ -13,9 +13,14 @@ class InfoService extends Service implements IInfoService
         private readonly Info $info,
     ) {}
 
+    public function getAll()
+    {
+        $info = $this->info->orderBy("position", "asc")->all();
+        return $info;
+    }
     public function getBySlug(string $slug)
     {
-        $info = $this->info->where("header", $slug)->first();
+        $info = $this->info->where("header", $slug)->orderBy("position", "asc")->first();
         return $info;
     }
 }
