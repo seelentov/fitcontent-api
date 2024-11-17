@@ -63,7 +63,7 @@ class FileSeeder extends Seeder
         }
 
         $image_folder = Folder::where("name", 'Images')->first();
-        $image_folders = File::where('parent_id', $image_folder->id)->get();
+        $image_folders = Folder::where('parent_id', $image_folder->id)->get();
 
         foreach ($image_folders as $folder) {
 
