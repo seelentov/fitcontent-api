@@ -146,14 +146,6 @@ horizon-continue:
 stop-test-horizon:
 	docker compose exec horizon php artisan horizon:pause-supervisor supervisor-test
 
-# Создание файла .env, если он отсутствует
-env:
-	# Проверяет, существует ли файл .env
-	@if [ ! -f .env ]; then \
-	  # Копирует файл .env.example в .env
-	  cp .env.example .env; \
-	fi
-
 # Открыть консоль MySQL
 mysql:
 	docker compose exec db mysql -u root
@@ -305,7 +297,6 @@ git-drop:
 tinker:
 	docker compose exec laravel php artisan tinker
 
-
 #Загрузить алиасы в .bashrc
 alias:
 	chmod +x scripts/aliases.sh
@@ -326,3 +317,8 @@ stats:
 
 clear-logs:
 	truncate -s 0 /var/lib/docker/containers/**/*-json.log
+
+#Создать ссылку на .env
+env:
+	rm -rf ./laravel/.env
+	ln .env ./laravel
