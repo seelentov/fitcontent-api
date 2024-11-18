@@ -33,7 +33,7 @@ init:
 	docker compose exec laravel php artisan storage:link
 	# Устанавливает права доступа для директории storage
 	docker compose exec laravel chmod -R 777 storage bootstrap/cache
-
+	@make test-base
 # Запуск контейнеров
 up:
 	# Запускает все сервисы в фоновом режиме
@@ -42,6 +42,7 @@ up:
 	sleep 5s
 	# Приостанавливает тестировочный супервайзер
 	@make stop-test-horizon
+	@make test-base
 
 # Переносит definitions из главной папки в rabbitinit, прописав пользователя и пароль из env
 rabbitinit:
