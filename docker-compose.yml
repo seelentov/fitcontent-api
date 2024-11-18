@@ -12,8 +12,6 @@ services:
       - rabbitmq
     command: ["php-fpm"]
     restart: always
-    ports:
-      - '9002:9000'
     networks:
       - app
 
@@ -78,8 +76,6 @@ services:
       - POSTGRES_DB=${DB_DATABASE}
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-    ports:
-      - ${DB_PORT}:${DB_PORT}
     networks:
       - app
 
@@ -115,9 +111,6 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq
     hostname: ${RABBITMQ_HOST}
-    ports:
-        - ${RABBITMQ_ADMIN_PORT}:${RABBITMQ_ADMIN_PORT}
-        - ${RABBITMQ_PORT}:${RABBITMQ_PORT}
     restart: always
     volumes:
       - ./docker/rabbitmq:/var/lib/rabbitmq
