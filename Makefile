@@ -209,6 +209,10 @@ dump-autoload:
 redis:
 	docker compose exec redis redis-cli
 
+# Открыть bash rabbitmq контейнера
+rabbitmq:
+	docker compose exec rabbitmq bash
+
 # Проверить, работает ли приложение
 check:
 	curl -s -o /dev/null -w "%{http_code}\n" http://localhost
