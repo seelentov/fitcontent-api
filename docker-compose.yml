@@ -125,10 +125,6 @@ services:
       restart: always
       volumes:
       - ./docker/redis:/data
-      command:
-        - /bin/sh
-        - -c
-        - redis-server --requirepass ${REDIS_PASSWORD}
       networks:
       - app
 
