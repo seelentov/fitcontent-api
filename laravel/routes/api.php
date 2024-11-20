@@ -21,7 +21,7 @@ Route::group([], function () {
 
     Route::group([
         'prefix' => 'folders',
-        'middleware' => ['api'],
+        'middleware' => ['api', "auth:api"],
     ], function () {
         Route::get('', [FolderController::class, 'index'])->name('folders');
         Route::get('{id}', [FolderController::class, 'show'])->name('folder');
@@ -29,14 +29,14 @@ Route::group([], function () {
 
     Route::group([
         'prefix' => 'files',
-        'middleware' => ['api'],
+        'middleware' => ['api', "auth:api"],
     ], function () {
         Route::get('{id}', [FileController::class, 'show'])->name('file');;
     });
 
     Route::group([
         'prefix' => 'info',
-        'middleware' => ['api'],
+        'middleware' => ['api', "auth:api"],
     ], function () {
         Route::get('', [InfoController::class, 'index'])->name('infos');;
         Route::get('{slug}', [InfoController::class, 'show'])->name('info');;
