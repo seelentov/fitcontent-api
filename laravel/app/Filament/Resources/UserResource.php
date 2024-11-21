@@ -40,7 +40,7 @@ class UserResource extends Resource
                 Forms\Components\DatePicker::make('sub_date'),
                 Forms\Components\DatePicker::make('verified_at'),
                 Forms\Components\Select::make('role')
-                    ->options(UserRoleOptions::class)
+                    ->options(UserRoleOptions::class)->required()->default(UserRoleOptions::TYPE_USER),
             ]);
     }
 
