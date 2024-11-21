@@ -28,8 +28,8 @@ class FileResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required(),
-                Forms\Components\FileUpload::make('icon_url')->previewable(false)->downloadable(),
-                Forms\Components\FileUpload::make('path')->required()->previewable(false)->downloadable(),
+                Forms\Components\FileUpload::make('icon_url')->previewable(false)->downloadable()->maxSize(102400),
+                Forms\Components\FileUpload::make('path')->required()->previewable(false)->downloadable()->maxSize(102400),
                 Forms\Components\Select::make('type')
                     ->options(FileTypeOptions::class),
                 Forms\Components\TextInput::make('position')
