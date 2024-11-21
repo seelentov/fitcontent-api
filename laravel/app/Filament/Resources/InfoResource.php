@@ -31,7 +31,7 @@ class InfoResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('position')
                     ->numeric()
-                    ->minValue(0)
+                    ->minValue(0)->default(0)
             ]);
     }
 

@@ -32,7 +32,7 @@ class FolderResource extends Resource
                     ->options(Folder::all()->pluck('name', 'id')),
                 Forms\Components\TextInput::make('position')
                     ->numeric()
-                    ->minValue(0)
+                    ->minValue(0)->default(0)
             ]);
     }
 

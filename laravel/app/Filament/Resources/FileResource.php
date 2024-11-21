@@ -34,7 +34,7 @@ class FileResource extends Resource
                     ->options(FileTypeOptions::class),
                 Forms\Components\TextInput::make('position')
                     ->numeric()
-                    ->minValue(0),
+                    ->minValue(0)->default(0),
                 Forms\Components\Select::make('folder_id')
                     ->relationship(name: 'folder', titleAttribute: 'name')
             ]);
