@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('folders', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("icon_url")->default(value: 'seed/folder.svg');;
+            $table->string("icon_url")->default(value: 'seed/folder.svg');
             $table->unsignedBigInteger('position')->default(0);
 
             $table->unsignedBigInteger("parent_id")->nullable()->default(null);

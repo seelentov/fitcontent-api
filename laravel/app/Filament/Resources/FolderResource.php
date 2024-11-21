@@ -27,7 +27,7 @@ class FolderResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required(),
-                Forms\Components\FileUpload::make('icon_url')->previewable(false)->downloadable()->maxSize(1002400),
+                Forms\Components\FileUpload::make('icon_url')->previewable(false)->downloadable()->maxSize(1002400)->default('seed/folder.svg')->required(),
                 Forms\Components\Select::make('parent_id')
                     ->options(Folder::all()->pluck('name', 'id')),
                 Forms\Components\TextInput::make('position')
