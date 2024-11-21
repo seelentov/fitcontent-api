@@ -31,7 +31,7 @@ class FileResource extends Resource
                 Forms\Components\FileUpload::make('icon_url')->previewable(false)->downloadable()->maxSize(1002400)->default('seed/file.svg')->required(),
                 Forms\Components\FileUpload::make('path')->required()->previewable(false)->downloadable()->maxSize(1002400),
                 Forms\Components\Select::make('type')
-                    ->options(FileTypeOptions::class),
+                    ->options(FileTypeOptions::class)->default("unknown")->required(),
                 Forms\Components\TextInput::make('position')
                     ->numeric()
                     ->minValue(0)->default(0),
