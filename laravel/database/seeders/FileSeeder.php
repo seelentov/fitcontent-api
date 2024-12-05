@@ -29,7 +29,7 @@ class FileSeeder extends Seeder
                 'name' => "Video" . $folder->name,
                 'path' => "seed/sample.mp4",
                 'folder_id' => $folder->id,
-                'type' => File::TYPE_DOC,
+                'type' => File::TYPE_VIDEO,
             ]);
         }
 
