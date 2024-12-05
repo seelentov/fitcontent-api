@@ -7,6 +7,9 @@ rabbitinit/definitions.json
 !nginx/conf.d
 !nginx/conf.d/*
 
+!php
+!php/php.ini
+
 !rabbitinit
 !rabbitinit/rabbitmq.conf
 rabbitinit/definitions.json
