@@ -16,65 +16,44 @@ class FileSeeder extends Seeder
      */
     public function run()
     {
+        foreach (Folder::whereNotNull('parent_id')->where("name", 'not like', '%music%')->get() as $folder) {
 
-        $music_folder = Folder::where("name", 'Music')->first();
-        $music_folders = Folder::where('parent_id', $music_folder->id)->get();
+            File::create([
+                'name' => "Doc" . "" . $folder->name,
+                'path' => "seed/sample.pdf",
+                'folder_id' => $folder->id,
+                'type' => File::TYPE_DOC,
+            ]);
 
-        foreach ($music_folders as $folder) {
-
-            for ($i = 0; $i < 8; $i++) {
-                File::create([
-                    'name' => "Track" . $i,
-                    'path' => "seed/sample.mp3",
-                    'folder_id' => $folder->id,
-                    'type' => File::TYPE_AUDIO,
-                ]);
-            }
+            File::create([
+                'name' => "Video" . "" . $folder->name,
+                'path' => "seed/sample.mp4",
+                'folder_id' => $folder->id,
+                'type' => File::TYPE_DOC,
+            ]);
         }
 
-        $video_folder = Folder::where("name", 'Video')->first();
-        $video_folders = Folder::where('parent_id', $video_folder->id)->get();
+        foreach (Folder::whereNotNull('parent_id')->where("name", 'like', '%music%')->get() as $folder) {
+            File::create([
+                'name' => "Track" . "1" . $folder->name,
+                'path' => "01JD7TXEKMTMFEV4QQPFY8806V.mp3",
+                'folder_id' => $folder->id,
+                'type' => File::TYPE_AUDIO,
+            ]);
 
-        foreach ($video_folders as $folder) {
+            File::create([
+                'name' => "Track" . "2" . $folder->name,
+                'path' => "01JD7TVVTG273ZSYBFSKHVMA46.mp3",
+                'folder_id' => $folder->id,
+                'type' => File::TYPE_AUDIO,
+            ]);
 
-            for ($i = 0; $i < 8; $i++) {
-                File::create([
-                    'name' => "Video" . $i,
-                    'path' => "seed/sample.mp4",
-                    'folder_id' => $folder->id,
-                    'type' => File::TYPE_VIDEO,
-                ]);
-            }
-        }
-
-        $docs_folder = Folder::where("name", 'Docs')->first();
-        $docs_folders = Folder::where('parent_id', $docs_folder->id)->get();
-
-        foreach ($docs_folders as $folder) {
-
-            for ($i = 0; $i < 8; $i++) {
-                File::create([
-                    'name' => "Doc" . $i,
-                    'path' => "seed/sample.pdf",
-                    'folder_id' => $folder->id,
-                    'type' => File::TYPE_DOC,
-                ]);
-            }
-        }
-
-        $image_folder = Folder::where("name", 'Images')->first();
-        $image_folders = Folder::where('parent_id', $image_folder->id)->get();
-
-        foreach ($image_folders as $folder) {
-
-            for ($i = 0; $i < 8; $i++) {
-                File::create([
-                    'name' => "Image" . $i,
-                    'path' => "seed/sample.jpg",
-                    'folder_id' => $folder->id,
-                    'type' => File::TYPE_IMAGE,
-                ]);
-            }
+            File::create([
+                'name' => "Track" . "3" . $folder->name,
+                'path' => "01JD7TWFAZF13RDFFZMM7SCWKB.mp3",
+                'folder_id' => $folder->id,
+                'type' => File::TYPE_AUDIO,
+            ]);
         }
     }
 }

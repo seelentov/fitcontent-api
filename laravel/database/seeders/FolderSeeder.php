@@ -17,32 +17,43 @@ class FolderSeeder extends Seeder
     {
 
         Folder::create([
-            'name' => "Music",
+            'name' => "BODYPUMP",
             'parent_id' => null,
+            "icon_url" => "01JD7NC5J4J7M32250Z4DYH7S3.png"
         ]);
 
         Folder::create([
-            'name' => "Video",
+            'name' => "BODYCOMBAT",
             'parent_id' => null,
+            "icon_url" => "01JD7R9VQN0ZAHB0MB48HRQ8DP.png"
         ]);
 
         Folder::create([
-            'name' => "Docs",
+            'name' => "BODYBALACE",
             'parent_id' => null,
+            "icon_url" => "01JD7REBB7DJ9PNSB26GR7WAYZ.png"
         ]);
 
         Folder::create([
-            'name' => "Images",
+            'name' => "RPM",
             'parent_id' => null,
+            "icon_url" => "01JD7RFG1E078CCWB5RB0B27HB.png"
         ]);
 
         foreach (Folder::all() as $folder) {
             for ($i = 0; $i < 4; $i++) {
                 Folder::create([
-                    'name' => "SubFolder" . $i,
+                    'name' => $folder->name . " " . $i,
                     'parent_id' => $folder->id,
                 ]);
             }
+        }
+
+        foreach (Folder::whereNotNull('parent_id')->get() as $folder){
+            Folder::create([
+                'name' => 'music' . " " . $folder->name,
+                'parent_id' => $folder->id,
+            ]);
         }
     }
 }
