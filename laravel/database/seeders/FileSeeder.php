@@ -19,14 +19,14 @@ class FileSeeder extends Seeder
         foreach (Folder::whereNotNull('parent_id')->where("name", 'not like', '%music%')->get() as $folder) {
 
             File::create([
-                'name' => "Doc" . "" . $folder->name,
+                'name' => "Doc" . $folder->name,
                 'path' => "seed/sample.pdf",
                 'folder_id' => $folder->id,
                 'type' => File::TYPE_DOC,
             ]);
 
             File::create([
-                'name' => "Video" . "" . $folder->name,
+                'name' => "Video" . $folder->name,
                 'path' => "seed/sample.mp4",
                 'folder_id' => $folder->id,
                 'type' => File::TYPE_DOC,
