@@ -14,7 +14,7 @@ class TestController extends Controller
     }
     public function test()
     {
-        $res = $this->client->getClient()->request("GET", "", ['debug' => false]);
+        $res = $this->client->getClient()->request("GET", "", ['debug' => true]);
         $res->getStatusCode();
 
         if ($res->getStatusCode() !== 200) {
