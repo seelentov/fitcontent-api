@@ -15,7 +15,17 @@ class TestController extends Controller
     public function test()
     {
         $res = $this->client->getClient()->request("GET");
-        $body = $res->getBody();
-        return $body;
+        $xmlString = $res->getBody();
+        $posRes = $this->xmlToJson($xmlString);
+        return $posRes;
     }
+
+    private function xmlToJson($xmlString)
+    {
+        $xmlObject = simplexml_load_string($xmlString);
+        $jsonArray = json_decode(json_encode($xmlObject), true);
+
+        return $jsonArray;
+    }
+
 }
