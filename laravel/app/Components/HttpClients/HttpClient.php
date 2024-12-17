@@ -21,4 +21,13 @@ abstract class HttpClient
     {
         return new Client($this->options);
     }
+
+    public function xmlToJson($xmlString)
+    {
+        $xmlObject = simplexml_load_string($xmlString);
+        $jsonArray = json_decode(json_encode($xmlObject), true);
+
+        return $jsonArray;
+    }
+
 }
