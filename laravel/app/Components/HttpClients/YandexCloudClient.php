@@ -12,8 +12,8 @@ class YandexCloudClient extends HttpClient
 
         parent::__construct();
         $this->options["base_uri"] = "https://storage.yandexcloud.net/fitcontent/";
-        // $this->reqOptions['headers'] = [
-        //     'Authorization' => 'AWS ' . $aws_access_key_id . ':' . $aws_secret_access_key,
-        // ];
+        $this->options['headers'] = [
+            'Authorization' => 'AWS ' . $aws_access_key_id . ':' . $aws_secret_access_key,
+        ];
     }
 }
