@@ -15,6 +15,7 @@ class TestController extends Controller
     public function test()
     {
         $res = $this->client->getClient()->request("GET");
-        return $res;
+        $body = $res->getBody();
+        return $body;
     }
 }
