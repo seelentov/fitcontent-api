@@ -14,9 +14,13 @@ class TestController extends Controller
     }
     public function test()
     {
-        $res = $this->client->getClient()->request("GET");
-        $xmlString = $res->getBody();
-        $posRes = $this->client->xmlToJson($xmlString);
-        return $posRes;
+        try {
+            $res = $this->client->getClient()->request("GET");
+            $xmlString = $res->getBody();
+            $posRes = $this->client->xmlToJson($xmlString);
+            return $posRes;
+        } catch (\Exception $ex) {
+            return $ex;
+        }
     }
 }
