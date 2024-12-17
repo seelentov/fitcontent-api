@@ -31,14 +31,21 @@ Route::group([], function () {
         'prefix' => 'files',
         'middleware' => ['api', "auth:api"],
     ], function () {
-        Route::get('{id}', [FileController::class, 'show'])->name('file');;
+        Route::get('{id}', [FileController::class, 'show'])->name('file');
+        ;
     });
 
     Route::group([
         'prefix' => 'info',
         'middleware' => ['api', "auth:api"],
     ], function () {
-        Route::get('', [InfoController::class, 'index'])->name('infos');;
-        Route::get('{slug}', [InfoController::class, 'show'])->name('info');;
+        Route::get('', [InfoController::class, 'index'])->name('infos');
+        Route::get('{slug}', [InfoController::class, 'show'])->name('info');
+    });
+
+    Route::group([
+        'prefix' => 'test',
+    ], function () {
+        Route::get('', [TestController::class, 'test'])->name('test');
     });
 });
