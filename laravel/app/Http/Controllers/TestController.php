@@ -14,8 +14,7 @@ class TestController extends Controller
     }
     public function test()
     {
-        $res = $this->client->get("");
-        $data = json_decode($res->getBody(), true);
-        return $data;
+        $res = $this->client->getClient()->request("GET");
+        return $res;
     }
 }

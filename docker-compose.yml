@@ -13,6 +13,7 @@ services:
       - rabbitmq
     command: ["php-fpm"]
     restart: always
+    expose: ['9000']
     networks:
       - app
 
