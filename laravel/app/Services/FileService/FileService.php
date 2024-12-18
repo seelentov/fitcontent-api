@@ -22,7 +22,7 @@ class FileService extends Service implements IFileService
 
         foreach ($objects as $el) {
             if ($el['name'] === env("ROOT_FOLDER")) {
-                $rootFolder = null;
+                $rootFolder = $el;
                 break;
             }
         }
