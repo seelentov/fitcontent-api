@@ -136,32 +136,34 @@ class FileService extends Service implements IFileService
         foreach ($objList as &$obj) {
             $isFolder = array_key_exists('parent_id', $obj);
 
-            $files = [];
+            $subObjects = [];
 
             if ($isFolder) {
                 foreach ($objList as &$subObj) {
                     if (
                         !array_key_exists('icon_url', $subObj)
-                        && array_key_exists('type', $subObj)
-                        && Crypt::decryptString($subObj['folder_id']) === Crypt::decryptString($obj['id'])
+                        && Crypt::decryptString(
+                            array_key_exists('parent_id', $subObj)
+                            ? $subObj['parent_id']
+                            : $subObj['folder_id']
+                        ) === Crypt::decryptString($obj['id'])
                     ) {
-                        $files[] = $subObj;
+                        $subObjects[] = $subObj;
                     }
                 }
 
-                if (!array_key_exists('icon_url', $obj)) {
-                    foreach ($files as &$subObj) {
-                        if (
-                            $subObj['type'] === self::TYPE_IMAGE
-                        ) {
-                            $obj['icon_url'] = $subObj['path'];
-                            break;
-                        }
+                foreach ($subObjects as &$subObj) {
+                    if (
+                        array_key_exists('type', $subObj)
+                        && $subObj['type'] === self::TYPE_IMAGE
+                    ) {
+                        $obj['icon_url'] = $subObj['path'];
+                        break;
                     }
                 }
 
                 if (array_key_exists('icon_url', $obj)) {
-                    foreach ($files as &$subObj) {
+                    foreach ($subObjects as &$subObj) {
                         $subObj['icon_url'] = $obj['icon_url'];
                     }
                 }
