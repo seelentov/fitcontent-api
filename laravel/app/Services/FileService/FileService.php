@@ -159,7 +159,7 @@ class FileService extends Service implements IFileService
             $subObjects = [];
 
             if ($isFolder) {
-                foreach ($objList as $subObj) {
+                foreach ($objList as &$subObj) {
                     $parentId = array_key_exists('parent_id', $subObj)
                         ? $subObj['parent_id']
                         : $subObj['folder_id'];
@@ -167,7 +167,7 @@ class FileService extends Service implements IFileService
                         $parentId !== null
                         && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
                     ) {
-                        $subObjects[] = &$subObj;
+                        $subObjects[] = $subObj;
                     }
                 }
 
