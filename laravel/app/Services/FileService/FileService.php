@@ -6,9 +6,12 @@ use App\Models\Traits\Enums\FileType;
 use App\Services\Service;
 use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Redis;
 class FileService extends Service implements IFileService
 {
     use FileType;
+
+    private $redisKey = "files";
 
     public function __construct()
     {
@@ -104,6 +107,19 @@ class FileService extends Service implements IFileService
     }
 
     private function getObjects()
+    {
+        if (Redis::exists($this->redisKey)) {
+            return Redis::get($this->redisKey);
+        }
+
+        $data = $this->getObjectsCore();
+
+        //Redis::set($this->redisKey, $data);
+
+        return $data;
+    }
+
+    private function getObjectsCore()
     {
         $aws_access_key_id = env('AWS_ACCESS_KEY_ID');
         $aws_secret_access_key = env('AWS_SECRET_ACCESS_KEY');
