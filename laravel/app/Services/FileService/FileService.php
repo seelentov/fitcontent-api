@@ -58,8 +58,6 @@ class FileService extends Service implements IFileService
 
         $res['name'] = $parts[count($parts) - 1];
 
-        $parts = explode('/', $object['id']);
-
         if (count($parts) > 2) {
             $object["parent_id"] = join('/', array_slice($parts, 0, count($parts) - 1));
         } else {
@@ -68,8 +66,6 @@ class FileService extends Service implements IFileService
 
         if (str_contains($res['name'], '.')) {
             $res = $this->formatFile($res);
-        } else {
-            $res = $this->formatFolder($res);
         }
 
         return $res;
@@ -108,11 +104,6 @@ class FileService extends Service implements IFileService
             $object['type'] = self::TYPE_UNKNOWN;
         }
 
-        return $object;
-    }
-
-    private function formatFolder($object)
-    {
         return $object;
     }
 }
