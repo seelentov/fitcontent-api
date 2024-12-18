@@ -27,15 +27,16 @@ class FileService extends Service implements IFileService
             }
         }
 
-        $rootFolder = $this->addChildrensToFolder($rootFolder);
+        $rootFolder = $this->addChildrensToFolder($rootFolder, $objects);
 
         return $rootFolder;
     }
 
     public function getFolder($id)
     {
-        $folder = $this->getObject($id);
-        $folder = $this->addChildrensToFolder($folder);
+        $objects = $this->getObjects();
+        $folder = $this->getObject($id, $objects);
+        $folder = $this->addChildrensToFolder($folder, $objects);
         return $folder;
     }
 
@@ -44,10 +45,13 @@ class FileService extends Service implements IFileService
         $file = $this->getObject($id);
         return $file;
     }
-    public function getObject($id)
+    private function getObject($id, $objects = null)
     {
         $id = Crypt::decryptString($id);
-        $objects = $this->getObjects();
+
+        if ($objects == null) {
+            $objects = $this->getObjects();
+        }
 
         foreach ($objects as $el) {
             if (Crypt::decryptString($el['id']) === $id) {
@@ -58,8 +62,33 @@ class FileService extends Service implements IFileService
         return null;
     }
 
-    private function addChildrensToFolder($folder)
+    private function addChildrensToFolder($folder, $objects = null)
     {
+        if ($objects == null) {
+            $objects = $this->getObjects();
+        }
+
+        $folderId = Crypt::decryptString($folder['id']);
+
+        $folders = [];
+        $files = [];
+
+        foreach ($objects as $el) {
+            $isFile = property_exists($el, 'folder_id');
+
+            $decryptedId = Crypt::decryptString($isFile ? $el['folder_id'] : $el['parent_id']);
+            if ($decryptedId === $folderId) {
+                if ($isFile) {
+                    $files[] = $el;
+                } else {
+                    $folders[] = $el;
+                }
+            }
+        }
+
+        $folder['folders'] = $folders;
+        $folder['files'] = $files;
+
         return $folder;
     }
 
