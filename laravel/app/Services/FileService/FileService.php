@@ -146,7 +146,6 @@ class FileService extends Service implements IFileService
 
         foreach ($paginator as $page) {
             foreach ($page['Contents'] as $object) {
-
                 $objList[] = $this->formatObject($object);
             }
         }
@@ -162,7 +161,8 @@ class FileService extends Service implements IFileService
                         : $subObj['folder_id'];
 
                     if (
-                        Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
+                        $parentId !== null
+                        && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
                         && array_key_exists('type', $subObj)
                         && $subObj['type'] === self::TYPE_IMAGE
                     ) {
@@ -171,15 +171,16 @@ class FileService extends Service implements IFileService
                     }
                 }
 
+                $iconUrl = array_key_exists('icon_url', $obj) ? $obj['icon_url'] : null;
+
                 foreach ($objList as &$subObj) {
                     $parentId = array_key_exists('parent_id', $subObj)
                         ? $subObj['parent_id']
                         : $subObj['folder_id'];
 
-                    $iconUrl = array_key_exists('icon_url', $obj) ? $obj['icon_url'] : null;
-
                     if (
-                        Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
+                        $parentId !== null
+                        && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
                     ) {
                         $subObj['icon_url'] = $iconUrl;
                     }
