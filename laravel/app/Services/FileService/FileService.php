@@ -196,7 +196,7 @@ class FileService extends Service implements IFileService
             $object['type'] = self::TYPE_UNKNOWN;
         }
 
-        $object['name'] = str_replace($format, '', '.' . $object['name']);
+        $object['name'] = str_replace('.' . $format, '', $object['name']);
 
         return $object;
     }
