@@ -74,7 +74,7 @@ class FileService extends Service implements IFileService
         $files = [];
 
         foreach ($objects as $el) {
-            $isFile = property_exists($el, 'folder_id');
+            $isFile = array_key_exists('folder_id', $el);
 
             $decryptedId = Crypt::decryptString($isFile ? $el['folder_id'] : $el['parent_id']);
             if ($decryptedId === $folderId) {
