@@ -148,11 +148,11 @@ class FileService extends Service implements IFileService
                         $parentId !== null
                         && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
                     ) {
-                        $subObjects[] = $subObj;
+                        $subObjects[] = &$subObj;
                     }
                 }
 
-                foreach ($subObjects as &$subObj) {
+                foreach ($subObjects as $subObj) {
                     if (
                         array_key_exists('type', $subObj)
                         && $subObj['type'] === self::TYPE_IMAGE
@@ -162,10 +162,18 @@ class FileService extends Service implements IFileService
                     }
                 }
 
+                if ($obj['name'] === "BODYBALANCE 94") {
+                    dump($obj);
+                }
+
                 if (array_key_exists('icon_url', $obj)) {
                     foreach ($subObjects as &$subObj) {
                         $subObj['icon_url'] = $obj['icon_url'];
                     }
+                }
+
+                if ($obj['name'] === "BODYBALANCE 94") {
+                    dd($subObjects);
                 }
 
             }
