@@ -182,7 +182,11 @@ class FileService extends Service implements IFileService
                         $parentId !== null
                         && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
                     ) {
-                        $subObj['icon_url'] = $iconUrl;
+                        if ($subObj['name'] === 'bp_FULLWIDTH') {
+                            dump($subObj);
+                            $subObj['icon_url'] = $iconUrl;
+                            dump($subObj);
+                        }
                     }
                 }
 
