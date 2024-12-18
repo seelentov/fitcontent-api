@@ -131,6 +131,27 @@ class FileService extends Service implements IFileService
                 $fileList[] = $this->formatObject($object);
             }
         }
+
+        $file['icon_url'] = null;
+
+        foreach ($fileList as $file) {
+            $isFolder = array_key_exists('folder_id', $file);
+
+            $parentKey = $isFolder ? 'folder_id' : 'parent_id';
+
+            $parentId = $file[$parentKey];
+
+            foreach ($fileList as $subFile) {
+                if (
+                    array_key_exists('type', $subFile)
+                    && $subFile['type'] === self::TYPE_IMAGE
+                    && $subFile['folder_id'] === $parentId
+                ) {
+                    $file['icon_url'] === $subFile['path'];
+                }
+            }
+        }
+
         return $fileList;
     }
 
