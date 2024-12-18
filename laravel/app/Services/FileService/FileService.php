@@ -29,7 +29,12 @@ class FileService extends Service implements IFileService
 
         $rootFolder = $this->addChildrensToFolder($rootFolder, $objects);
 
-        return $rootFolder;
+        $res = [
+            'files' => $rootFolder['files'],
+            'folders' => $rootFolder['folders'],
+        ];
+
+        return $res;
     }
 
     public function getFolder($id)
