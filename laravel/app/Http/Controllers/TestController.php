@@ -86,8 +86,6 @@ class TestController extends Controller
         return json_encode([
             'baseUrl' => $baseUrl,
             'programs' => $programs,
-        ], JSON_PRETTY_PRINT);
+        ]);
     }
-
-
 }
