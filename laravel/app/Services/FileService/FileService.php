@@ -25,8 +25,6 @@ class FileService extends Service implements IFileService
         $rootFolder = null;
 
         foreach ($objects as $el) {
-            dd($el);
-
             if ($el['name'] === env("ROOT_FOLDER")) {
                 $rootFolder = $el;
                 break;
