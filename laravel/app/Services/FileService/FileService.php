@@ -151,7 +151,7 @@ class FileService extends Service implements IFileService
             }
         }
 
-        dump($objList);
+        dump(json_encode($objList));
 
         foreach ($objList as &$obj) {
             $isFolder = array_key_exists('parent_id', $obj);
@@ -199,7 +199,7 @@ class FileService extends Service implements IFileService
         //     return $obj['type'] !== self::TYPE_IMAGE;
         // });
 
-        dd($objList);
+        dd(json_encode($objList));
 
         return $objList;
     }
