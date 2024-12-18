@@ -2,9 +2,7 @@
 
 namespace App\Services\FileService;
 
-use App\Models\File;
 use App\Models\Traits\Enums\FileType;
-use App\Services\Interfaces\IBaseFileService;
 use App\Services\Service;
 use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Crypt;
@@ -12,27 +10,59 @@ class FileService extends Service implements IFileService
 {
     use FileType;
 
-    public function __construct(
+    public function __construct()
+    {
+    }
 
-    ) {
+    public function getRoot()
+    {
+        $objects = $this->getObjects();
+
+        $rootFolder = null;
+
+        foreach ($objects as $el) {
+            if (Crypt::decryptString($el['name']) === 'lm') {
+                $rootFolder = null;
+                break;
+            }
+        }
+
+        $rootFolder = $this->addChildrensToFolder($rootFolder);
+
+        return $rootFolder;
+    }
+
+    public function getFolder($id)
+    {
+        $folder = $this->getObject($id);
+        $folder = $this->addChildrensToFolder($folder);
+        return $folder;
     }
 
     public function getFile($id)
     {
-        $id = Crypt::decryptString($id);
-
-
+        $file = $this->getObject($id);
+        return $file;
     }
-    public function getFolder($id)
+    public function getObject($id)
     {
         $id = Crypt::decryptString($id);
+        $objects = $this->getObjects();
+
+        foreach ($objects as $el) {
+            if (Crypt::decryptString($el['id']) === $id) {
+                return $el;
+            }
+        }
+
+        return null;
     }
-    public function getRoot()
+
+    private function addChildrensToFolder($folder)
     {
-
-
-
+        return $folder;
     }
+
     private function getObjects()
     {
         $aws_access_key_id = env('AWS_ACCESS_KEY_ID');
@@ -72,7 +102,7 @@ class FileService extends Service implements IFileService
 
         $res['id'] = Crypt::encryptString($object['Key']);
 
-        $object['path'] = $object['Key'];
+        $res['path'] = '/' . $object['Key'];
 
         $parts = explode('/', $object['Key']);
 
@@ -99,8 +129,6 @@ class FileService extends Service implements IFileService
 
     private function formatFile($object)
     {
-
-
         $object['folder_id'] = $object['parent_id'];
 
         unset($object['parent_id']);

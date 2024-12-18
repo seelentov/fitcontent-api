@@ -17,7 +17,6 @@ class TestController extends Controller
     }
     public function test()
     {
-        return $this->fileService->getObjects();
     }
 
     public function test2()

@@ -12,29 +12,19 @@ use App\Services\FolderService\IFolderService;
 class FolderController extends Controller
 {
     public function __construct(
-        private readonly IFolderService $folders,
         private readonly IFileService $files
-    ) {}
+    ) {
+    }
 
     public function index()
     {
-        $folders = $this->folders->getRoot();
-        $files = $this->files->getRoot();
-
-        return response()->json([
-            'folders' => $folders,
-            'files' => $files,
-        ]);
+        $data = $this->files->getRoot();
+        return $data;
     }
 
     public function show($id)
     {
-        $folder = $this->folders->getById($id);
-
-        if (is_null($folder)) {
-            return response()->json(["message" => "Not found"], 404);
-        }
-
-        return response()->json($folder);
+        $data = $this->files->getFolder($id);
+        return $data;
     }
 }
