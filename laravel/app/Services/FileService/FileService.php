@@ -134,6 +134,7 @@ class FileService extends Service implements IFileService
 
 
         foreach ($objList as &$obj) {
+            dump($objList);
             dd($obj);
             $isFolder = array_key_exists('parent_id', $obj);
 
