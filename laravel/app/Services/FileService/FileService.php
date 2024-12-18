@@ -147,9 +147,7 @@ class FileService extends Service implements IFileService
 
         foreach ($paginator as $page) {
             foreach ($page['Contents'] as $object) {
-                dump('Contents');
 
-                dump($page['Contents']);
                 $objList[] = $this->formatObject($object);
             }
         }
@@ -190,15 +188,15 @@ class FileService extends Service implements IFileService
             }
         }
 
-        $objList = array_filter($objList, function ($obj) {
-            $isFile = array_key_exists('type', $obj);
+        // $objList = array_filter($objList, function ($obj) {
+        //     $isFile = array_key_exists('type', $obj);
 
-            if (!$isFile) {
-                return true;
-            }
+        //     if (!$isFile) {
+        //         return true;
+        //     }
 
-            return $obj['type'] !== self::TYPE_IMAGE;
-        });
+        //     return $obj['type'] !== self::TYPE_IMAGE;
+        // });
 
         return $objList;
     }
