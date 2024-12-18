@@ -22,21 +22,24 @@ class FileService extends Service implements IFileService
     {
         $objects = $this->getObjects();
 
-        $rootFolder = null;
+        $res = [
+            'files' => [],
+            'folders' => [],
+        ];
 
-        foreach ($objects as $el) {
-            if ($el['name'] === env("ROOT_FOLDER")) {
-                $rootFolder = $el;
-                break;
+        foreach ($objects as $obj) {
+            $isFile = array_key_exists('folder_id', array: $obj);
+
+            $parentKey = $isFile ? "folder_id" : 'parent_id';
+
+            if ($obj[$parentKey] === null) {
+                if ($isFile) {
+                    $res['files'][] = $obj;
+                } else {
+                    $res['folders'][] = $obj;
+                }
             }
         }
-
-        $rootFolder = $this->addChildrensToFolder($rootFolder, $objects);
-
-        $res = [
-            'files' => $rootFolder['files'],
-            'folders' => $rootFolder['folders'],
-        ];
 
         return $res;
     }
