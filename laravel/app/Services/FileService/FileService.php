@@ -54,9 +54,11 @@ class FileService extends Service implements IFileService
 
         $res['id'] = Crypt::encryptString($object['Key']);
 
-        $parts = explode('/', $res['id']);
+        $object['path'] = $object['Key'];
 
-        $isFolder = str_ends_with($res['id'], '/');
+        $parts = explode('/', $object['Key']);
+
+        $isFolder = str_ends_with($object['Key'], '/');
 
         $partsCounter = count($parts) - ($isFolder ? 2 : 1);
 
@@ -79,7 +81,7 @@ class FileService extends Service implements IFileService
 
     private function formatFile($object)
     {
-        $object['path'] = $object['id'];
+
 
         $object['folder_id'] = $object['parent_id'];
 
@@ -114,6 +116,8 @@ class FileService extends Service implements IFileService
     private function formatFolder($object)
     {
         unset($object['size']);
+
+        unset($object['path']);
 
         return $object;
     }
