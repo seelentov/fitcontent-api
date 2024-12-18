@@ -120,7 +120,7 @@ class FileService extends Service implements IFileService
             'endpoint' => 'https://storage.yandexcloud.net',
         ]);
 
-        $fileList = [];
+        $objList = [];
         $paginator = $s3->getPaginator('ListObjectsV2', [
             'Bucket' => $bucket_name,
         ]);
@@ -128,31 +128,46 @@ class FileService extends Service implements IFileService
         foreach ($paginator as $page) {
             foreach ($page['Contents'] as $object) {
 
-                $fileList[] = $this->formatObject($object);
+                $objList = $this->formatObject($object);
             }
         }
 
-        foreach ($fileList as &$file) {
-            $file['icon_url'] = null;
+        foreach ($objList as &$obj) {
+            $isFolder = array_key_exists('parent_id', $obj);
 
-            $isFolder = array_key_exists('folder_id', $file);
+            $files = [];
 
-            $parentKey = $isFolder ? 'folder_id' : 'parent_id';
+            if ($isFolder) {
+                foreach ($objList as &$subObj) {
+                    if (
+                        !array_key_exists('icon_url', $subObj)
+                        && array_key_exists('type', $subObj)
+                        && Crypt::decryptString($subObj['folder_id']) === Crypt::decryptString($obj['id'])
+                    ) {
+                        $files[] = $subObj;
+                    }
+                }
 
-            $parentId = $file[$parentKey];
+                if (!array_key_exists('icon_url', $obj)) {
+                    foreach ($files as &$subObj) {
+                        if (
+                            $subObj['type'] === self::TYPE_IMAGE
+                        ) {
+                            $obj['icon_url'] = $subObj['path'];
+                            break;
+                        }
+                    }
+                }
 
-            foreach ($fileList as $subFile) {
-                if (
-                    array_key_exists('type', $subFile)
-                    && $subFile['type'] === self::TYPE_IMAGE
-                    && $subFile['folder_id'] === $parentId
-                ) {
-                    $file['icon_url'] === $subFile['path'];
+                if (array_key_exists('icon_url', $obj)) {
+                    foreach ($files as &$subObj) {
+                        $subObj['icon_url'] = $obj['icon_url'];
+                    }
                 }
             }
         }
 
-        return $fileList;
+        return $objList;
     }
 
     private function formatObject($object)
