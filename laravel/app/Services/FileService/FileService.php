@@ -173,9 +173,13 @@ class FileService extends Service implements IFileService
                 }
 
                 if ($obj['name'] === "BODYBALANCE 94") {
-                    dd($subObjects);
+                    dump($subObjects);
                 }
 
+            }
+
+            if ($obj['name'] === "BODYBALANCE 94") {
+                dd($subObjects);
             }
         }
 
