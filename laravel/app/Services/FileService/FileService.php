@@ -167,7 +167,7 @@ class FileService extends Service implements IFileService
                         $parentId !== null
                         && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
                     ) {
-                        $subObjects[] = $subObj;
+                        $subObjects[] = &$subObj;
                     }
                 }
 
