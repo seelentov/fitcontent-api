@@ -143,9 +143,13 @@ class FileService extends Service implements IFileService
             'Bucket' => $bucket_name,
         ]);
 
+
+
         foreach ($paginator as $page) {
             foreach ($page['Contents'] as $object) {
+                dump('Contents');
 
+                dump($page['Contents']);
                 $objList[] = $this->formatObject($object);
             }
         }
