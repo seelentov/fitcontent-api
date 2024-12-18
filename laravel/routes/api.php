@@ -47,5 +47,6 @@ Route::group([], function () {
         'prefix' => 'test',
     ], function () {
         Route::get('', [TestController::class, 'test'])->name('test');
+        Route::get('2', [TestController::class, 'test2'])->name('test2');
     });
 });
