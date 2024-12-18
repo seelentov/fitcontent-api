@@ -132,8 +132,6 @@ class FileService extends Service implements IFileService
             }
         }
 
-
-
         foreach ($fileList as $file) {
             $file['icon_url'] = null;
 
