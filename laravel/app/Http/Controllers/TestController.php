@@ -50,7 +50,9 @@ class TestController extends Controller
 
         foreach ($paginator as $page) {
             foreach ($page['Contents'] as $object) {
-                $fileList[] = $object['Key'];
+
+                $fileList[]['size'] = $object['Size'];
+                $fileList[]['created_at'] = $object['LastModified'];
             }
         }
         return $fileList;
