@@ -132,7 +132,7 @@ class FileService extends Service implements IFileService
             }
         }
 
-        foreach ($fileList as $file) {
+        foreach ($fileList as &$file) {
             $file['icon_url'] = null;
 
             $isFolder = array_key_exists('folder_id', $file);
