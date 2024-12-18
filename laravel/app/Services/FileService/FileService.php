@@ -223,7 +223,9 @@ class FileService extends Service implements IFileService
         $res['name'] = $parts[$partsCounter];
 
         if (count($parts) > 2) {
-            $res["parent_id"] = Crypt::encryptString(join('/', array_slice($parts, 0, $partsCounter)) . "/");
+            $parentId = Crypt::encryptString(join('/', array_slice($parts, 0, $partsCounter)) . "/");
+            $parentId = join('/', array_slice($parts, 0, $partsCounter));
+            $res["parent_id"] = $parentId;
         } else {
             $res["parent_id"] = null;
         }
