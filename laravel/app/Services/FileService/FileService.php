@@ -198,14 +198,10 @@ class FileService extends Service implements IFileService
                             && $subObj2['type'] !== self::TYPE_IMAGE
                         ) {
                             $obj['files_count']++;
-                        } else {
+                        } else if (!array_key_exists('type', $subObj2)) {
                             $obj['folders_count']++;
                         }
-
                     }
-
-
-
                 }
 
                 unset($subObj2);
