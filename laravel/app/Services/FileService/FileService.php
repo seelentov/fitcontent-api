@@ -179,7 +179,24 @@ class FileService extends Service implements IFileService
             }
 
             if ($obj['name'] === "BODYBALANCE 94") {
-                dd($subObjects);
+
+                $test = [];
+
+                foreach ($objList as &$subObj) {
+                    $parentId = array_key_exists('parent_id', $subObj)
+                        ? $subObj['parent_id']
+                        : $subObj['folder_id'];
+
+                    if (
+                        $parentId !== null
+                        && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
+                    ) {
+                        $test[] = &$subObj;
+                    }
+                }
+
+                dump($obj);
+                dd($test);
             }
         }
 
