@@ -21,7 +21,7 @@ class FileService extends Service implements IFileService
         $rootFolder = null;
 
         foreach ($objects as $el) {
-            if (Crypt::decryptString($el['name']) === 'lm') {
+            if ($el['name'] === env("ROOT_FOLDER")) {
                 $rootFolder = null;
                 break;
             }
