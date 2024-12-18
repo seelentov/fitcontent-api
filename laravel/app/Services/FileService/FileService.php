@@ -150,8 +150,6 @@ class FileService extends Service implements IFileService
             }
         }
 
-        dump(json_encode($objList));
-
         foreach ($objList as &$obj) {
             $isFolder = array_key_exists('parent_id', $obj);
             if ($isFolder) {
@@ -193,7 +191,15 @@ class FileService extends Service implements IFileService
 
         unset($obj);
 
-        dd(json_encode($objList));
+        $objList = array_filter($objList, function ($obj) {
+            $isFile = array_key_exists('type', $obj);
+
+            if (!$isFile) {
+                return true;
+            }
+
+            return $obj['type'] !== self::TYPE_IMAGE;
+        });
 
         return $objList;
     }
