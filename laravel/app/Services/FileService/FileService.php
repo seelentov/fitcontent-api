@@ -222,15 +222,15 @@ class FileService extends Service implements IFileService
 
         $res['name'] = $parts[$partsCounter];
 
+        $res["parent_id"] = null;
+
         if (count($parts) > 2) {
-            $parentId = Crypt::encryptString(join('/', array_slice($parts, 0, $partsCounter)) . "/");
-            $parentId = join('/', array_slice($parts, 0, $partsCounter));
+            $partsJoin = join('/', array_slice($parts, 0, $partsCounter));
 
-            dd($parentId);
-
-            $res["parent_id"] = $parentId;
-        } else {
-            $res["parent_id"] = null;
+            if ($partsJoin !== env("ROOT_FOLDER")) {
+                $parentId = Crypt::encryptString($partsJoin . "/");
+                $res["parent_id"] = $parentId;
+            }
         }
 
         if (str_contains($res['name'], '.')) {
