@@ -189,7 +189,13 @@ class FileService extends Service implements IFileService
         }
 
         $objList = array_filter($objList, function ($obj) {
-            return !(array_key_exists('type', $obj) && $obj['type'] !== self::TYPE_IMAGE);
+            $isFile = array_key_exists('type', $obj);
+
+            if (!$isFile) {
+                return true;
+            }
+
+            return $obj['type'] !== self::TYPE_IMAGE;
         });
 
         return $objList;
