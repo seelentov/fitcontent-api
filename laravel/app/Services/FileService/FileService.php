@@ -153,7 +153,7 @@ class FileService extends Service implements IFileService
                 }
 
                 if ($obj['name'] === "BODYPUMP") {
-                    dd($subObjects);
+                    dump($subObjects);
                 }
 
                 foreach ($subObjects as &$subObj) {
@@ -166,11 +166,20 @@ class FileService extends Service implements IFileService
                     }
                 }
 
+                if ($obj['name'] === "BODYPUMP") {
+                    dump($subObjects);
+                }
+
                 if (array_key_exists('icon_url', $obj)) {
                     foreach ($subObjects as &$subObj) {
                         $subObj['icon_url'] = $obj['icon_url'];
                     }
                 }
+
+                if ($obj['name'] === "BODYPUMP") {
+                    dd($subObjects);
+                }
+
             }
         }
 
