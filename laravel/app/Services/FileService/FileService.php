@@ -173,25 +173,25 @@ class FileService extends Service implements IFileService
 
                 $iconUrl = array_key_exists('icon_url', $obj) ? $obj['icon_url'] : null;
 
-                foreach ($objList as &$subObj) {
-                    $parentId = array_key_exists('parent_id', $subObj)
-                        ? $subObj['parent_id']
-                        : $subObj['folder_id'];
+                foreach ($objList as &$subObj2) {
+                    $parentId = array_key_exists('parent_id', $subObj2)
+                        ? $subObj2['parent_id']
+                        : $subObj2['folder_id'];
 
                     if (
                         $parentId !== null
                         && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
                     ) {
-                        if ($subObj['name'] === 'bp_FULLWIDTH') {
-                            dump($subObj);
-                            $subObj['icon_url'] = $iconUrl;
-                            dump($subObj);
-                        }
+                        $subObj2['icon_url'] = $iconUrl;
                     }
                 }
 
+                unset($subObj2);
+
             }
         }
+
+        unset($obj);
 
         dd(json_encode($objList));
 
