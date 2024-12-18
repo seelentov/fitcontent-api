@@ -176,14 +176,14 @@ class FileService extends Service implements IFileService
                         array_key_exists('type', $subObj)
                         && $subObj['type'] === self::TYPE_IMAGE
                     ) {
-                        $obj['icon_url'] = $subObj['path'];
+                        //$obj['icon_url'] = $subObj['path'];
                         break;
                     }
                 }
 
                 if (array_key_exists('icon_url', $obj)) {
                     foreach ($subObjects as &$subObj) {
-                        $subObj['icon_url'] = $obj['icon_url'];
+                        //$subObj['icon_url'] = $obj['icon_url'];
                     }
                 }
             }
