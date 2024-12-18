@@ -6,5 +6,5 @@ use App\Services\Interfaces\IBaseFileService;
 
 interface IFileService
 {
-    public function getFiles();
+    public function getObjects();
 }

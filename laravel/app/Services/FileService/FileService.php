@@ -6,7 +6,7 @@ use App\Models\File;
 use App\Models\Traits\Enums\FileType;
 use App\Services\Service;
 use Aws\S3\S3Client;
-
+use Illuminate\Support\Facades\Crypt;
 class FileService extends Service implements IFileService
 {
     use FileType;
@@ -15,7 +15,7 @@ class FileService extends Service implements IFileService
 
     ) {
     }
-    public function getFiles()
+    public function getObjects()
     {
         $aws_access_key_id = env('AWS_ACCESS_KEY_ID');
         $aws_secret_access_key = env('AWS_SECRET_ACCESS_KEY');
@@ -24,7 +24,7 @@ class FileService extends Service implements IFileService
 
         $s3 = new S3Client([
             'version' => 'latest',
-            'region' => 'ru-central1', // You might need to adjust this region
+            'region' => 'ru-central1',
             'credentials' => [
                 'key' => $aws_access_key_id,
                 'secret' => $aws_secret_access_key,
@@ -52,20 +52,26 @@ class FileService extends Service implements IFileService
         $res['size'] = $object['Size'];
         $res['created_at'] = $object['LastModified'];
 
-        $res['id'] = $object['Key'];
+        $res['id'] = Crypt::encryptString($object['Key']);
 
         $parts = explode('/', $res['id']);
 
-        $res['name'] = $parts[count($parts) - 1];
+        $isFolder = str_ends_with($res['id'], '/');
+
+        $partsCounter = count($parts) - ($isFolder ? 2 : 1);
+
+        $res['name'] = $parts[$partsCounter];
 
         if (count($parts) > 2) {
-            $res["parent_id"] = join('/', array_slice($parts, 0, count($parts) - 1));
+            $res["parent_id"] = join('/', array_slice($parts, 0, $partsCounter)) + "/";
         } else {
             $res["parent_id"] = null;
         }
 
         if (str_contains($res['name'], '.')) {
             $res = $this->formatFile($res);
+        } else {
+            $res = $this->formatFolder($res);
         }
 
         return $res;
@@ -73,8 +79,6 @@ class FileService extends Service implements IFileService
 
     private function formatFile($object)
     {
-        unset($object['size']);
-
         $object['path'] = $object['id'];
 
         $object['folder_id'] = $object['parent_id'];
@@ -103,6 +107,13 @@ class FileService extends Service implements IFileService
         } else {
             $object['type'] = self::TYPE_UNKNOWN;
         }
+
+        return $object;
+    }
+
+    private function formatFolder($object)
+    {
+        unset($object['size']);
 
         return $object;
     }

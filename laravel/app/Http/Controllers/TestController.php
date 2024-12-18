@@ -38,7 +38,7 @@ class TestController extends Controller
 
         // return $jsonData;
 
-        return $this->fileService->getFiles();
+        return $this->fileService->getObjects();
     }
 
     private function listFiles(S3Client $s3, string $bucketName): array
