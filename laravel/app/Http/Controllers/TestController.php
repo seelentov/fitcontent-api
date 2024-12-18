@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Components\HttpClients\YandexCloudClient;
+use App\Services\FileService\IFileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Aws\S3\S3Client;
@@ -10,32 +11,34 @@ use Aws\S3\S3Client;
 class TestController extends Controller
 {
     public function __construct(
-
+        private readonly IFileService $fileService
     ) {
     }
     public function test()
     {
-        $aws_access_key_id = env('AWS_ACCESS_KEY_ID');
-        $aws_secret_access_key = env('AWS_SECRET_ACCESS_KEY');
+        // $aws_access_key_id = env('AWS_ACCESS_KEY_ID');
+        // $aws_secret_access_key = env('AWS_SECRET_ACCESS_KEY');
 
-        $bucket_name = 'fitcontent';
-        $mainlink = 'https://storage.yandexcloud.net/fitcontent/';
+        // $bucket_name = 'fitcontent';
+        // $mainlink = 'https://storage.yandexcloud.net/fitcontent/';
 
-        $s3 = new S3Client([
-            'version' => 'latest',
-            'region' => 'ru-central1', // You might need to adjust this region
-            'credentials' => [
-                'key' => $aws_access_key_id,
-                'secret' => $aws_secret_access_key,
-            ],
-            'endpoint' => 'https://storage.yandexcloud.net',
-        ]);
+        // $s3 = new S3Client([
+        //     'version' => 'latest',
+        //     'region' => 'ru-central1', // You might need to adjust this region
+        //     'credentials' => [
+        //         'key' => $aws_access_key_id,
+        //         'secret' => $aws_secret_access_key,
+        //     ],
+        //     'endpoint' => 'https://storage.yandexcloud.net',
+        // ]);
 
-        $files = $this->listFiles($s3, $bucket_name);
-        $programs = $this->classifyFiles($files);
-        $jsonData = $this->generateJson($programs, $mainlink);
+        // $files = $this->listFiles($s3, $bucket_name);
+        // $programs = $this->classifyFiles($files);
+        // $jsonData = $this->generateJson($programs, $mainlink);
 
-        return $jsonData;
+        // return $jsonData;
+
+        return $this->fileService->getFiles();
     }
 
     private function listFiles(S3Client $s3, string $bucketName): array
