@@ -142,7 +142,6 @@ class FileService extends Service implements IFileService
                     $parentId = array_key_exists('parent_id', $subObj)
                         ? $subObj['parent_id']
                         : $subObj['folder_id'];
-
                     if (
                         $parentId !== null
                         && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
@@ -151,7 +150,7 @@ class FileService extends Service implements IFileService
                     }
                 }
 
-                foreach ($subObjects as &$subObj) {
+                foreach ($subObjects as $subObj) {
                     if (
                         array_key_exists('type', $subObj)
                         && $subObj['type'] === self::TYPE_IMAGE
@@ -168,6 +167,10 @@ class FileService extends Service implements IFileService
                 }
             }
         }
+
+        $objList = array_filter($objList, function (&$obj) use ($subObj) {
+            return !(array_key_exists('type', $subObj) && $subObj['type'] === self::TYPE_IMAGE);
+        });
 
         return $objList;
     }
