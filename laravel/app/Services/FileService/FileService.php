@@ -59,9 +59,9 @@ class FileService extends Service implements IFileService
         $res['name'] = $parts[count($parts) - 1];
 
         if (count($parts) > 2) {
-            $object["parent_id"] = join('/', array_slice($parts, 0, count($parts) - 1));
+            $res["parent_id"] = join('/', array_slice($parts, 0, count($parts) - 1));
         } else {
-            $object["parent_id"] = null;
+            $res["parent_id"] = null;
         }
 
         if (str_contains($res['name'], '.')) {
