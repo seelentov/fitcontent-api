@@ -132,7 +132,6 @@ class FileService extends Service implements IFileService
             }
         }
 
-
         foreach ($objList as &$obj) {
             $isFolder = array_key_exists('parent_id', $obj);
 
@@ -152,12 +151,13 @@ class FileService extends Service implements IFileService
                     }
                 }
 
-                foreach ($subObjects as $subObj) {
+                foreach ($subObjects as &$subObj) {
                     if (
                         array_key_exists('type', $subObj)
                         && $subObj['type'] === self::TYPE_IMAGE
                     ) {
                         $obj['icon_url'] = $subObj['path'];
+                        unset($subObj);
                         break;
                     }
                 }
