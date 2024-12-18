@@ -109,12 +109,14 @@ class FileService extends Service implements IFileService
 
     private function getObjects()
     {
-        if (Redis::exists($this->redisKey)) {
-            return json_decode(Redis::get($this->redisKey));
-        }
+        // Включение кеша раскоментированием этого
+        // if (Redis::exists($this->redisKey)) {
+        //     return json_decode(Redis::get($this->redisKey));
+        // }
 
         $data = $this->getObjectsCore();
 
+        // Включение кеша раскоментированием этого
         //Redis::set($this->redisKey, json_encode($data));
         //Redis::expire($this->redisKey, $this->redisTTL)
 
@@ -186,8 +188,8 @@ class FileService extends Service implements IFileService
             }
         }
 
-        $objList = array_filter($objList, function (&$obj) use ($subObj) {
-            return !(array_key_exists('type', $subObj) && $subObj['type'] === self::TYPE_IMAGE);
+        $objList = array_filter($objList, function ($obj) {
+            return !(array_key_exists('type', $obj) && $obj['type'] !== self::TYPE_IMAGE);
         });
 
         return $objList;
