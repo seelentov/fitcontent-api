@@ -170,14 +170,18 @@ class FileService extends Service implements IFileService
             }
         }
 
+        $removeImagesList = [];
+
         foreach ($objList as &$obj) {
             if (
                 array_key_exists('type', $obj)
-                && $obj['type'] === self::TYPE_IMAGE
+                && $obj['type'] !== self::TYPE_IMAGE
             ) {
-                unset($obj);
+                $removeImagesList[] = $obj;
             }
         }
+
+        $objList = $removeImagesList;
 
         return $objList;
     }
