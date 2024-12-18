@@ -157,7 +157,6 @@ class FileService extends Service implements IFileService
                         && $subObj['type'] === self::TYPE_IMAGE
                     ) {
                         $obj['icon_url'] = $subObj['path'];
-                        unset($subObj);
                         break;
                     }
                 }
@@ -168,6 +167,15 @@ class FileService extends Service implements IFileService
                     }
                 }
 
+            }
+        }
+
+        foreach ($objList as &$obj) {
+            if (
+                array_key_exists('type', $obj)
+                && $obj['type'] === self::TYPE_IMAGE
+            ) {
+                unset($obj);
             }
         }
 
