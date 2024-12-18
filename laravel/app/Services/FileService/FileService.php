@@ -32,7 +32,7 @@ class FileService extends Service implements IFileService
 
             $parentKey = $isFile ? "folder_id" : 'parent_id';
 
-            if ($obj[$parentKey] === null) {
+            if ($obj[$parentKey] === null && $obj['name'] !== env("ROOT_FOLDER")) {
                 if ($isFile) {
                     $res['files'][] = $obj;
                 } else {
