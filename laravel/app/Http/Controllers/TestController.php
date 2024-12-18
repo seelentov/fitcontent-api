@@ -22,8 +22,6 @@ class TestController extends Controller
 
     public function test2()
     {
-        dump(Crypt::decryptString("eyJpdiI6InBKaFNGRm1ZNlZCMFBYY0phR1p1MlE9PSIsInZhbHVlIjoidng4ZDlma1Rjb1VhdXRFbzlrS2IwQT09IiwibWFjIjoiZDJkZjg1NzYyZjNiOTU0NTA0ZGUxNjBiYjcyN2UyN2ViMDhkMjdlYzBiMzY2ZmJjODhlYzU2ZDVkOWJjOGFiZiIsInRhZyI6IiJ9"));
-        dd(Crypt::decryptString("eyJpdiI6InNYZ1RSYlUwZVh6NlgrWjR6d1BMdFE9PSIsInZhbHVlIjoiZ0RTdThXbkU2QnBCNFErcFY5bnA3QT09IiwibWFjIjoiNTYyODg4MGE0MjAxNmFmYmJlYTExNjljMDc0YmU0M2VkZWZkNTdjNjFkOGUwY2JhY2VjZjIzMjdlNWRjOGE2MSIsInRhZyI6IiJ9"));
         return;
     }
 }

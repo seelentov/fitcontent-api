@@ -6,5 +6,7 @@ use App\Services\Interfaces\IBaseFileService;
 
 interface IFileService
 {
-    public function getObjects();
+    public function getFile(string $id);
+    public function getFolder(string $id);
+    public function getRoot();
 }

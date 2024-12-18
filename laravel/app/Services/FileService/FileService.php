@@ -4,6 +4,7 @@ namespace App\Services\FileService;
 
 use App\Models\File;
 use App\Models\Traits\Enums\FileType;
+use App\Services\Interfaces\IBaseFileService;
 use App\Services\Service;
 use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Crypt;
@@ -15,7 +16,24 @@ class FileService extends Service implements IFileService
 
     ) {
     }
-    public function getObjects()
+
+    public function getFile($id)
+    {
+        $id = Crypt::decryptString($id);
+
+
+    }
+    public function getFolder($id)
+    {
+        $id = Crypt::decryptString($id);
+    }
+    public function getRoot()
+    {
+
+
+
+    }
+    private function getObjects()
     {
         $aws_access_key_id = env('AWS_ACCESS_KEY_ID');
         $aws_secret_access_key = env('AWS_SECRET_ACCESS_KEY');
@@ -109,6 +127,8 @@ class FileService extends Service implements IFileService
         } else {
             $object['type'] = self::TYPE_UNKNOWN;
         }
+
+        $object['name'] = str_replace($format, '', $object['name']);
 
         return $object;
     }

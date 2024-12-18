@@ -27,17 +27,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             IFileService::class,
             function ($app) {
-                return new FileService($app->make(File::class));
+                return new FileService();
             }
         );
-
-        $this->app->bind(
-            IFolderService::class,
-            function ($app) {
-                return new FolderService($app->make(Folder::class));
-            }
-        );
-
 
         $this->app->bind(
             IUserService::class,
