@@ -83,7 +83,7 @@ class FileService extends Service implements IFileService
         $files = [];
 
         foreach ($objects as $el) {
-            $isFile = array_key_exists('folder_id', $el);
+            $isFile = array_key_exists('folder_id', array: $el);
 
             $parentKey = $isFile ? "folder_id" : 'parent_id';
 
@@ -92,6 +92,7 @@ class FileService extends Service implements IFileService
             }
 
             $decryptedId = Crypt::decryptString($el[$parentKey]);
+
             if ($decryptedId === $folderId) {
                 if ($isFile) {
                     $files[] = $el;
@@ -143,8 +144,6 @@ class FileService extends Service implements IFileService
             'Bucket' => $bucket_name,
         ]);
 
-
-
         foreach ($paginator as $page) {
             foreach ($page['Contents'] as $object) {
 
@@ -152,7 +151,7 @@ class FileService extends Service implements IFileService
             }
         }
 
-        dd($objList);
+        dump($objList);
 
         foreach ($objList as &$obj) {
             $isFolder = array_key_exists('parent_id', $obj);
@@ -199,6 +198,8 @@ class FileService extends Service implements IFileService
 
         //     return $obj['type'] !== self::TYPE_IMAGE;
         // });
+
+        dd($objList);
 
         return $objList;
     }
