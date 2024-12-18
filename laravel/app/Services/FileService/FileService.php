@@ -212,7 +212,7 @@ class FileService extends Service implements IFileService
 
         $res['id'] = Crypt::encryptString($object['Key']);
 
-        $res['path'] = urlencode($object['Key']);
+        $res['path'] = str_replace(" ", "%20", $object['Key']);
 
         $parts = explode('/', $object['Key']);
 
