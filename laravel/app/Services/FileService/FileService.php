@@ -112,14 +112,14 @@ class FileService extends Service implements IFileService
 
     private function getObjects()
     {
-        // if (Redis::exists($this->redisKey)) {
-        // return json_decode(Redis::get($this->redisKey));
-        // }
+        if (Redis::exists($this->redisKey)) {
+            return json_decode(Redis::get($this->redisKey), true);
+        }
 
         $data = $this->getObjectsCore();
 
-        // Redis::set($this->redisKey, json_encode($data));
-        // Redis::expire($this->redisKey, $this->redisTTL);
+        Redis::set($this->redisKey, json_encode($data));
+        Redis::expire($this->redisKey, $this->redisTTL);
 
         return $data;
     }
