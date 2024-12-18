@@ -128,7 +128,7 @@ class FileService extends Service implements IFileService
         foreach ($paginator as $page) {
             foreach ($page['Contents'] as $object) {
 
-                $objList = $this->formatObject($object);
+                $objList[] = $this->formatObject($object);
             }
         }
 
