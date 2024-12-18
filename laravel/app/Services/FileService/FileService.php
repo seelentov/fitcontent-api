@@ -155,25 +155,15 @@ class FileService extends Service implements IFileService
 
         foreach ($objList as &$obj) {
             $isFolder = array_key_exists('parent_id', $obj);
-
-            $subObjects = [];
-
             if ($isFolder) {
-                foreach ($objList as &$subObj) {
+                foreach ($objList as $subObj) {
                     $parentId = array_key_exists('parent_id', $subObj)
                         ? $subObj['parent_id']
                         : $subObj['folder_id'];
-                    if (
-                        $parentId !== null
-                        && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
-                    ) {
-                        $subObjects[] = $subObj;
-                    }
-                }
 
-                foreach ($subObjects as $subObj) {
                     if (
-                        array_key_exists('type', $subObj)
+                        Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
+                        && array_key_exists('type', $subObj)
                         && $subObj['type'] === self::TYPE_IMAGE
                     ) {
                         $obj['icon_url'] = $subObj['path'];
@@ -181,23 +171,22 @@ class FileService extends Service implements IFileService
                     }
                 }
 
-                if (array_key_exists('icon_url', $obj)) {
-                    foreach ($subObjects as &$subObj) {
-                        $subObj['icon_url'] = $obj['icon_url'];
+                foreach ($objList as &$subObj) {
+                    $parentId = array_key_exists('parent_id', $subObj)
+                        ? $subObj['parent_id']
+                        : $subObj['folder_id'];
+
+                    $iconUrl = array_key_exists('icon_url', $obj) ? $obj['icon_url'] : null;
+
+                    if (
+                        Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
+                    ) {
+                        $subObj['icon_url'] = $iconUrl;
                     }
                 }
+
             }
         }
-
-        // $objList = array_filter($objList, function ($obj) {
-        //     $isFile = array_key_exists('type', $obj);
-
-        //     if (!$isFile) {
-        //         return true;
-        //     }
-
-        //     return $obj['type'] !== self::TYPE_IMAGE;
-        // });
 
         dd(json_encode($objList));
 
