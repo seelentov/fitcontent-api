@@ -144,16 +144,16 @@ class FileService extends Service implements IFileService
                         ? $subObj['parent_id']
                         : $subObj['folder_id'];
 
-                    dump($parentId);
-                    dump($obj['id']);
-                    dump($subObj);
-
                     if (
                         $parentId !== null
                         && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
                     ) {
                         $subObjects[] = $subObj;
                     }
+                }
+
+                if ($obj['name'] === "BODYPUMP") {
+                    dd($subObjects);
                 }
 
                 foreach ($subObjects as &$subObj) {
