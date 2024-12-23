@@ -247,7 +247,7 @@ class FileService extends Service implements IFileService
             $partsJoin = join('/', array_slice($parts, 0, $partsCounter));
 
             if ($partsJoin !== env("ROOT_FOLDER")) {
-                $parentId = preg_replace('/\s+/', '_', str_replace("/", "_", $partsJoin));
+                $parentId = preg_replace('/\s+/', '_', str_replace("/", "_", $partsJoin . "_"));
                 $res["parent_id"] = $parentId;
             }
         }
