@@ -229,7 +229,7 @@ class FileService extends Service implements IFileService
         $res['size'] = $object['Size'];
         $res['created_at'] = $object['LastModified'];
 
-        $res['id'] = str_replace("/", "", $object['Key']);
+        $res['id'] = preg_replace('/\s+/', '_', str_replace("/", "_", $object['Key']));
 
         $res['path'] = str_replace(" ", "%20", $object['Key']);
 
@@ -247,7 +247,7 @@ class FileService extends Service implements IFileService
             $partsJoin = join('/', array_slice($parts, 0, $partsCounter));
 
             if ($partsJoin !== env("ROOT_FOLDER")) {
-                $parentId = str_replace("/", "", $partsJoin . "/");
+                $parentId = preg_replace('/\s+/', '_', str_replace("/", "_", $partsJoin));
                 $res["parent_id"] = $parentId;
             }
         }
