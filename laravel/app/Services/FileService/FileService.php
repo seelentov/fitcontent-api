@@ -59,14 +59,14 @@ class FileService extends Service implements IFileService
     }
     private function getObject($id, $objects = null)
     {
-        $id = Crypt::decryptString($id);
+        $id = ($id);
 
         if ($objects == null) {
             $objects = $this->getObjects();
         }
 
         foreach ($objects as $el) {
-            if (Crypt::decryptString($el['id']) === $id) {
+            if (($el['id']) === $id) {
                 return $el;
             }
         }
@@ -80,7 +80,7 @@ class FileService extends Service implements IFileService
             $objects = $this->getObjects();
         }
 
-        $folderId = Crypt::decryptString($folder['id']);
+        $folderId = ($folder['id']);
 
         $folders = [];
         $files = [];
@@ -94,7 +94,7 @@ class FileService extends Service implements IFileService
                 continue;
             }
 
-            $decryptedId = Crypt::decryptString($el[$parentKey]);
+            $decryptedId = ($el[$parentKey]);
 
             if ($decryptedId === $folderId) {
                 if ($isFile) {
@@ -171,7 +171,7 @@ class FileService extends Service implements IFileService
 
                     if (
                         $parentId !== null
-                        && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
+                        && ($parentId) === ($obj['id'])
                         && array_key_exists('type', $subObj)
                         && $subObj['type'] === self::TYPE_IMAGE
                     ) {
@@ -189,7 +189,7 @@ class FileService extends Service implements IFileService
 
                     if (
                         $parentId !== null
-                        && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
+                        && ($parentId) === ($obj['id'])
                     ) {
                         $subObj2['icon_url'] = $iconUrl;
 
@@ -229,7 +229,7 @@ class FileService extends Service implements IFileService
         $res['size'] = $object['Size'];
         $res['created_at'] = $object['LastModified'];
 
-        $res['id'] = Crypt::encryptString($object['Key']);
+        $res['id'] = str_replace("/", "", $object['Key']);
 
         $res['path'] = str_replace(" ", "%20", $object['Key']);
 
@@ -247,7 +247,7 @@ class FileService extends Service implements IFileService
             $partsJoin = join('/', array_slice($parts, 0, $partsCounter));
 
             if ($partsJoin !== env("ROOT_FOLDER")) {
-                $parentId = Crypt::encryptString($partsJoin . "/");
+                $parentId = str_replace("/", "", $partsJoin . "/");
                 $res["parent_id"] = $parentId;
             }
         }
