@@ -59,12 +59,14 @@ class FileService extends Service implements IFileService
     }
     private function getObject($id, $objects = null)
     {
+        $id = urlencode($id);
+
         if ($objects == null) {
             $objects = $this->getObjects();
         }
 
         foreach ($objects as $el) {
-            if ($el['id'] === $id) {
+            if (urlencode($el['id']) === $id) {
                 return $el;
             }
         }
@@ -78,7 +80,7 @@ class FileService extends Service implements IFileService
             $objects = $this->getObjects();
         }
 
-        $folderId = $folder['id'];
+        $folderId = urlencode($folder['id']);
 
         $folders = [];
         $files = [];
@@ -92,7 +94,7 @@ class FileService extends Service implements IFileService
                 continue;
             }
 
-            $decryptedId = $el[$parentKey];
+            $decryptedId = urlencode($el[$parentKey]);
 
             if ($decryptedId === $folderId) {
                 if ($isFile) {
@@ -169,7 +171,7 @@ class FileService extends Service implements IFileService
 
                     if (
                         $parentId !== null
-                        && $parentId === $obj['id']
+                        && urlencode($parentId) === urlencode($obj['id'])
                         && array_key_exists('type', $subObj)
                         && $subObj['type'] === self::TYPE_IMAGE
                     ) {
@@ -187,7 +189,7 @@ class FileService extends Service implements IFileService
 
                     if (
                         $parentId !== null
-                        && $parentId === $obj['id']
+                        && urlencode($parentId) === urlencode($obj['id'])
                     ) {
                         $subObj2['icon_url'] = $iconUrl;
 
@@ -227,7 +229,7 @@ class FileService extends Service implements IFileService
         $res['size'] = $object['Size'];
         $res['created_at'] = $object['LastModified'];
 
-        $res['id'] = $object['Key'];
+        $res['id'] = Crypt::encryptString($object['Key']);
 
         $res['path'] = str_replace(" ", "%20", $object['Key']);
 
@@ -245,7 +247,7 @@ class FileService extends Service implements IFileService
             $partsJoin = join('/', array_slice($parts, 0, $partsCounter));
 
             if ($partsJoin !== env("ROOT_FOLDER")) {
-                $parentId = $partsJoin . "/";
+                $parentId = Crypt::encryptString($partsJoin . "/");
                 $res["parent_id"] = $parentId;
             }
         }
