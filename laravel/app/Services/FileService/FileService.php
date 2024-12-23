@@ -5,6 +5,7 @@ namespace App\Services\FileService;
 use App\Models\Traits\Enums\FileType;
 use App\Services\Service;
 use Aws\S3\S3Client;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redis;
 class FileService extends Service implements IFileService
 {
@@ -58,12 +59,14 @@ class FileService extends Service implements IFileService
     }
     private function getObject($id, $objects = null)
     {
+        $id = Crypt::decryptString($id);
+
         if ($objects == null) {
             $objects = $this->getObjects();
         }
 
         foreach ($objects as $el) {
-            if ($el['id'] === $id) {
+            if (Crypt::decryptString($el['id']) === $id) {
                 return $el;
             }
         }
@@ -77,7 +80,7 @@ class FileService extends Service implements IFileService
             $objects = $this->getObjects();
         }
 
-        $folderId = $folder['id'];
+        $folderId = Crypt::decryptString($folder['id']);
 
         $folders = [];
         $files = [];
@@ -91,7 +94,7 @@ class FileService extends Service implements IFileService
                 continue;
             }
 
-            $decryptedId = $el[$parentKey];
+            $decryptedId = Crypt::decryptString($el[$parentKey]);
 
             if ($decryptedId === $folderId) {
                 if ($isFile) {
@@ -110,9 +113,9 @@ class FileService extends Service implements IFileService
 
     private function getObjects()
     {
-        if (Redis::exists($this->redisKey)) {
-            return json_decode(Redis::get($this->redisKey), true);
-        }
+        // if (Redis::exists($this->redisKey)) {
+        //     return json_decode(Redis::get($this->redisKey), true);
+        // }
 
         $data = $this->getObjectsCore();
 
@@ -168,7 +171,7 @@ class FileService extends Service implements IFileService
 
                     if (
                         $parentId !== null
-                        && $parentId === $obj['id']
+                        && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
                         && array_key_exists('type', $subObj)
                         && $subObj['type'] === self::TYPE_IMAGE
                     ) {
@@ -186,7 +189,7 @@ class FileService extends Service implements IFileService
 
                     if (
                         $parentId !== null
-                        && $parentId === $obj['id']
+                        && Crypt::decryptString($parentId) === Crypt::decryptString($obj['id'])
                     ) {
                         $subObj2['icon_url'] = $iconUrl;
 
@@ -226,7 +229,7 @@ class FileService extends Service implements IFileService
         $res['size'] = $object['Size'];
         $res['created_at'] = $object['LastModified'];
 
-        $res['id'] = urlencode($object['Key']);
+        $res['id'] = Crypt::encryptString($object['Key']);
 
         $res['path'] = str_replace(" ", "%20", $object['Key']);
 
@@ -244,7 +247,7 @@ class FileService extends Service implements IFileService
             $partsJoin = join('/', array_slice($parts, 0, $partsCounter));
 
             if ($partsJoin !== env("ROOT_FOLDER")) {
-                $parentId = urlencode($partsJoin);
+                $parentId = Crypt::encryptString($partsJoin . "/");
                 $res["parent_id"] = $parentId;
             }
         }
