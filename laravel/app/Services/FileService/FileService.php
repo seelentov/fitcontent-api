@@ -5,7 +5,6 @@ namespace App\Services\FileService;
 use App\Models\Traits\Enums\FileType;
 use App\Services\Service;
 use Aws\S3\S3Client;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redis;
 class FileService extends Service implements IFileService
 {
@@ -229,7 +228,7 @@ class FileService extends Service implements IFileService
         $res['size'] = $object['Size'];
         $res['created_at'] = $object['LastModified'];
 
-        $res['id'] = Crypt::encryptString($object['Key']);
+        $res['id'] = urlencode($object['Key']);
 
         $res['path'] = str_replace(" ", "%20", $object['Key']);
 
@@ -247,7 +246,7 @@ class FileService extends Service implements IFileService
             $partsJoin = join('/', array_slice($parts, 0, $partsCounter));
 
             if ($partsJoin !== env("ROOT_FOLDER")) {
-                $parentId = Crypt::encryptString($partsJoin . "/");
+                $parentId = urlencode($partsJoin . "/");
                 $res["parent_id"] = $parentId;
             }
         }
